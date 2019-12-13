@@ -20,17 +20,12 @@
         <UnusedClass>
             <errorLevel type="suppress">
                 <referencedClass name="Mobicms\Captcha\Code"/>
-                <referencedClass name="Mobicms\Captcha\Image"/>
             </errorLevel>
         </UnusedClass>
 
         <PossiblyUnusedMethod>
             <errorLevel type="suppress">
                 <referencedMethod name="Mobicms\Captcha\Options::setImageSize"/>
-                <referencedMethod name="Mobicms\Captcha\Options::setFontShuffle"/>
-                <referencedMethod name="Mobicms\Captcha\Options::setDefaultFontSize"/>
-                <referencedMethod name="Mobicms\Captcha\Options::setFontsFolder"/>
-                <referencedMethod name="Mobicms\Captcha\Options::adjustFont"/>
             </errorLevel>
         </PossiblyUnusedMethod>
     </issueHandlers>

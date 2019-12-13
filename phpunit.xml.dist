@@ -4,7 +4,7 @@
          bootstrap="vendor/autoload.php"
          colors="true">
     <testsuites>
-        <testsuite name="mobicms-render">
+        <testsuite name="johncms-system">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

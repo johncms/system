@@ -2,6 +2,11 @@
 
 This package is part of [JohnCMS](https://github.com/johncms/johncms).
 
+[![Packagist](https://img.shields.io/packagist/l/johncms/system.svg)](https://packagist.org/packages/johncms/system)
+[![Source Code](http://img.shields.io/badge/source-johncms/system-blue.svg)](https://github.com/johncms/system)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/johncms/system.svg?label=stable)](https://github.com/johncms/system/releases)
+[![Packagist](https://img.shields.io/packagist/dt/johncms/system)](https://packagist.org/packages/mobicms/render)
+
 ## Installation
 
 The preferred method of installation is via [Composer](http://getcomposer.org). Run the following
