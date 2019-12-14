@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace Johncms\System\Container;
 
-use Johncms\System\ConfigProvider;
-use Zend\ConfigAggregator\ArrayProvider;
-use Zend\ConfigAggregator\ConfigAggregator;
-use Zend\ConfigAggregator\PhpFileProvider;
+use Johncms\System\ConfigProvider as JohncmsConfig;
+use Zend\ConfigAggregator\{
+    ArrayProvider,
+    ConfigAggregator,
+    PhpFileProvider
+};
+use Zend\I18n\ConfigProvider as I18nConfig;
 
 class Config
 {
@@ -30,7 +33,8 @@ class Config
                 new ArrayProvider(['config_cache_path' => $this->cacheFile]),
 
                 // Include packages configuration
-                ConfigProvider::class,
+                I18nConfig::class,
+                JohncmsConfig::class,
 
                 // Load application config in a pre-defined order
                 new PhpFileProvider(CONFIG_PATH . 'autoload/{{,*.}global,{,*.}local}.php'),

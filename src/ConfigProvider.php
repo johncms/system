@@ -12,8 +12,11 @@ declare(strict_types=1);
 
 namespace Johncms\System;
 
+use Johncms\System\Config;
 use Johncms\System\Database\PdoFactory;
+use Johncms\System\i18n\TranslatorServiceFactory;
 use PDO;
+use Zend\I18n\Translator\Translator;
 
 class ConfigProvider
 {
@@ -30,8 +33,9 @@ class ConfigProvider
             'aliases' => [],
 
             'factories' => [
-                \Johncms\System\Config\Config::class => \Johncms\System\Config\ConfigFactory::class,
-                PDO::class                 => PdoFactory::class,
+                Config\Config::class => Config\ConfigFactory::class,
+                PDO::class           => PdoFactory::class,
+                Translator::class    => TranslatorServiceFactory::class,
             ],
 
             'invokables' => [],
