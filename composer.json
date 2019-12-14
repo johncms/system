@@ -28,7 +28,7 @@
             "tests/constants.php"
         ],
         "psr-4": {
-            "Johncms\\System\\Tests\\": "tests/"
+            "JohncmsTests\\System\\": "tests/"
         }
     },
     "scripts": {

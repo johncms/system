@@ -19,6 +19,7 @@ use Zend\ConfigAggregator\PhpFileProvider;
 
 class Config
 {
+    /** @var string */
     private $cacheFile = 'system-config.cache';
 
     public function __invoke(): array

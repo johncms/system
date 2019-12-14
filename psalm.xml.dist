@@ -19,7 +19,7 @@
 
         <UnusedClass>
             <errorLevel type="suppress">
-                <referencedClass name="Mobicms\Captcha\Code"/>
+                <referencedClass name="Johncms\System\Container\Factory"/>
             </errorLevel>
         </UnusedClass>
 

@@ -16,6 +16,7 @@ use Zend\ServiceManager\ServiceManager;
 
 class Factory
 {
+    /** @var null|ServiceManager */
     private static $containerInstance;
 
     public static function getContainer(): ServiceManager
