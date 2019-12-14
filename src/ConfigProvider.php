@@ -30,7 +30,8 @@ class ConfigProvider
             'aliases' => [],
 
             'factories' => [
-                PDO::class => PdoFactory::class,
+                \Johncms\System\Config\Config::class => \Johncms\System\Config\ConfigFactory::class,
+                PDO::class                 => PdoFactory::class,
             ],
 
             'invokables' => [],

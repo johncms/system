@@ -12,9 +12,7 @@ declare(strict_types=1);
 
 namespace Johncms\System\Database;
 
-use LogicException;
 use PDO;
-use PDOException;
 use Psr\Container\ContainerInterface;
 
 class PdoFactory
