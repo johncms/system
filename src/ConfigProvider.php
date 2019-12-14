@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Johncms\System;
 
+use Johncms\System\Database\PdoFactory;
+use PDO;
+
 class ConfigProvider
 {
     public function __invoke(): array
@@ -26,7 +29,9 @@ class ConfigProvider
         return [
             'aliases' => [],
 
-            'factories' => [],
+            'factories' => [
+                PDO::class => PdoFactory::class,
+            ],
 
             'invokables' => [],
         ];

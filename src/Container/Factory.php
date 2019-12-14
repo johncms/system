@@ -25,8 +25,8 @@ class Factory
             // Build configuration
             $config = (new Config())();
             $dependencies = $config['dependencies'];
-            $dependencies['services']['database'] = $config['database'] ?? [];
-            unset($config['dependencies'], $config['database']);
+            $dependencies['services']['database'] = $config['pdo'] ?? [];
+            unset($config['dependencies'], $config['pdo']);
             $dependencies['services']['config'] = $config;
 
             // Build container
