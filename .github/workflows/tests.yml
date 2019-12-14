@@ -19,7 +19,7 @@ jobs:
       run: composer validate
 
     - name: Install dependencies
-      run: composer install --no-interaction
+      run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
 
     - name: Check coding style
       run: composer cs-check
