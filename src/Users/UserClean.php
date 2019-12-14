@@ -76,7 +76,9 @@ class UserClean
     public function removeMail($clean_id)
     {
         // Удаляем файлы юзера из почты
-        $req = $this->db->query("SELECT * FROM `cms_mail` WHERE (`user_id` OR `from_id` = '" . $clean_id . "') AND `file_name` != ''");
+        $req = $this->db->query(
+            "SELECT * FROM `cms_mail` WHERE (`user_id` OR `from_id` = '" . $clean_id . "') AND `file_name` != ''"
+        );
 
         if ($req->rowCount()) {
             while ($res = $req->fetch()) {
@@ -106,9 +108,13 @@ class UserClean
     public function cleanForum($clean_id)
     {
         // Скрываем темы на форуме
-        $this->db->exec("UPDATE `forum_topic` SET `deleted` = '1', `deleted_by` = 'SYSTEM' WHERE `user_id` = '" . $clean_id . "'");
+        $this->db->exec(
+            "UPDATE `forum_topic` SET `deleted` = '1', `deleted_by` = 'SYSTEM' WHERE `user_id` = '" . $clean_id . "'"
+        );
         // Скрываем посты на форуме
-        $this->db->exec("UPDATE `forum_messages` SET `deleted` = '1', `deleted_by` = 'SYSTEM' WHERE `user_id` = '" . $clean_id . "'");
+        $this->db->exec(
+            "UPDATE `forum_messages` SET `deleted` = '1', `deleted_by` = 'SYSTEM' WHERE `user_id` = '" . $clean_id . "'"
+        );
         // Удаляем метки прочтения на Форуме
         $this->db->exec("DELETE FROM `cms_forum_rdm` WHERE `user_id` = '" . $clean_id . "'");
     }

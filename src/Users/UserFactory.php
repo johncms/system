@@ -80,14 +80,20 @@ class UserFactory
                     }
 
                     // Фиксируем историю IP
-                    if ($userData['ip'] != $this->env->getIp() || $userData['ip_via_proxy'] != $this->env->getIpViaProxy()) {
+                    if (
+                        $userData['ip'] != $this->env->getIp()
+                        || $userData['ip_via_proxy'] != $this->env->getIpViaProxy()
+                    ) {
                         $this->ipHistory($userData);
                     }
 
                     return $userData;
                 }
                 // Если авторизация не прошла
-                $this->db->query("UPDATE `users` SET `failed_login` = '" . ($userData['failed_login'] + 1) . "' WHERE `id` = " . $userData['id']);
+                $this->db->exec(
+                    "UPDATE `users` SET `failed_login` = '" . ($userData['failed_login'] + 1) .
+                    "' WHERE `id` = " . $userData['id']
+                );
                 $this->userUnset();
             } else {
                 // Если пользователь не существует
@@ -107,7 +113,9 @@ class UserFactory
     protected function banCheck($userId)
     {
         $ban = [];
-        $req = $this->db->query('SELECT * FROM `cms_ban_users` WHERE `user_id` = ' . $userId . " AND `ban_time` > '" . time() . "'");
+        $req = $this->db->query(
+            'SELECT * FROM `cms_ban_users` WHERE `user_id` = ' . $userId . " AND `ban_time` > '" . time() . "'"
+        );
 
         while ($res = $req->fetch()) {
             $ban[$res['ban_type']] = 1;
@@ -124,30 +132,36 @@ class UserFactory
     protected function ipHistory(array $userData)
     {
         // Удаляем из истории текущий адрес (если есть)
-        $this->db->exec("DELETE FROM `cms_users_iphistory`
+        $this->db->exec(
+            "DELETE FROM `cms_users_iphistory`
           WHERE `user_id` = '" . $userData['id'] . "'
           AND `ip` = '" . $this->env->getIp() . "'
           AND `ip_via_proxy` = '" . $this->env->getIpViaProxy() . "'
           LIMIT 1
-        ");
+        "
+        );
 
         // Вставляем в историю предыдущий адрес IP
-        $this->db->exec("INSERT INTO `cms_users_iphistory` SET
+        $this->db->exec(
+            "INSERT INTO `cms_users_iphistory` SET
           `user_id` = '" . $userData['id'] . "',
           `ip` = '" . $userData['ip'] . "',
           `ip_via_proxy` = '" . $userData['ip_via_proxy'] . "',
           `time` = '" . $userData['lastdate'] . "'
-        ");
+        "
+        );
 
         // Обновляем текущий адрес в таблице `users`
-        $this->db->exec("UPDATE `users` SET
+        $this->db->exec(
+            "UPDATE `users` SET
           `ip` = '" . $this->env->getIp() . "',
           `ip_via_proxy` = '" . $this->env->getIpViaProxy() . "'
           WHERE `id` = '" . $userData['id'] . "'
-        ");
+        "
+        );
     }
 
-    protected function userTemplate() : array
+    protected function userTemplate(): array
     {
         return [
             'id'            => 0,

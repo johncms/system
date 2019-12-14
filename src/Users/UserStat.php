@@ -46,7 +46,7 @@ class UserStat
         }
     }
 
-    private function processUser() : void
+    private function processUser(): void
     {
         $place = $this->determinePlace();
 
@@ -60,22 +60,26 @@ class UserStat
                 : $this->user->movings;
         }
 
-        $update = $this->db->prepare('UPDATE `users` SET
+        $update = $this->db->prepare(
+            'UPDATE `users` SET
           `lastdate` = ?,
           `sestime`  = ?,
           `movings`  = ?,
           `place` = ?
-          WHERE `id` = ?');
-        $update->execute([
-            time(),
-            $sestime,
-            $movings,
-            $place,
-            $this->user->id,
-        ]);
+          WHERE `id` = ?'
+        );
+        $update->execute(
+            [
+                time(),
+                $sestime,
+                $movings,
+                $place,
+                $this->user->id,
+            ]
+        );
     }
 
-    private function processGuest() : void
+    private function processGuest(): void
     {
         $place = $this->determinePlace();
         $session = md5($this->env->getIp() . $this->env->getIpViaProxy() . $this->env->getUserAgent());
@@ -97,24 +101,29 @@ class UserStat
                     : $res['movings'];
             }
 
-            $update = $this->db->prepare('UPDATE `cms_sessions` SET
+            $update = $this->db->prepare(
+                'UPDATE `cms_sessions` SET
               `sestime`  = ?,
               `lastdate` = ?,
               `place`    = ?,
               `views`    = ?,
               `movings`  = ?
-              WHERE `session_id` = ?');
-            $update->execute([
-                $res['sestime'],
-                time(),
-                $place,
-                $res['views'] + 1,
-                $movings,
-                $session,
-            ]);
+              WHERE `session_id` = ?'
+            );
+            $update->execute(
+                [
+                    $res['sestime'],
+                    time(),
+                    $place,
+                    $res['views'] + 1,
+                    $movings,
+                    $session,
+                ]
+            );
         } else {
             // Если еще небыло в базе, то добавляем запись
-            $insert = $this->db->prepare('INSERT INTO `cms_sessions` SET
+            $insert = $this->db->prepare(
+                'INSERT INTO `cms_sessions` SET
               `session_id`   = ?,
               `ip`           = ?,
               `ip_via_proxy` = ?,
@@ -123,20 +132,23 @@ class UserStat
               `sestime`      = ?,
               `views`        = 1,
               `movings`      = 1,
-              `place`        = ?');
-            $insert->execute([
-                $session,
-                $this->env->getIp(),
-                $this->env->getIpViaProxy(),
-                $this->env->getUserAgent(),
-                time(),
-                time(),
-                $place,
-            ]);
+              `place`        = ?'
+            );
+            $insert->execute(
+                [
+                    $session,
+                    $this->env->getIp(),
+                    $this->env->getIpViaProxy(),
+                    $this->env->getUserAgent(),
+                    time(),
+                    time(),
+                    $place,
+                ]
+            );
         }
     }
 
-    private function determinePlace() : string
+    private function determinePlace(): string
     {
         $uri = rawurldecode($_SERVER['REQUEST_URI']);
         $path = trim(str_ireplace('index.php', '', parse_url($uri, PHP_URL_PATH)), '/');
