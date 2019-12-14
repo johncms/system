@@ -25,9 +25,6 @@ jobs:
       - name: Check coding style
         run: composer cs-check
 
-      - name: Run static analysis tool
-        run: composer psalm
-
       - name: Run test suite
         run: composer test-coverage
 

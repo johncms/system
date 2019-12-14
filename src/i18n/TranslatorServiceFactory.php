@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Johncms\System\i18n;
 
 use Johncms\System\Config\Config;
-use Johncms\Api\UserInterface;
+use Johncms\System\Users\User;
 use Psr\Container\ContainerInterface;
 use Zend\I18n\Translator\Translator;
 
@@ -46,8 +46,8 @@ class TranslatorServiceFactory
         /** @var Config $config */
         $config = $container->get(Config::class);
 
-        /** @var UserInterface $userConfig */
-        $userConfig = $container->get(UserInterface::class)->config;
+        /** @var User $userConfig */
+        $userConfig = $container->get(User::class)->config;
 
         if (isset($_POST['setlng']) && array_key_exists($_POST['setlng'], $config->lng_list)) {
             $locale = trim($_POST['setlng']);

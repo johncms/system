@@ -20,6 +20,7 @@
         <UnusedClass>
             <errorLevel type="suppress">
                 <referencedClass name="Johncms\System\Container\Factory"/>
+                <referencedClass name="Johncms\System\Users\UserStat"/>
             </errorLevel>
         </UnusedClass>
 
