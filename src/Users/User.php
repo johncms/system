@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Johncms\System\Users;
 
-use Johncms\Api\UserConfigInterface;
 use Zend\Stdlib\ArrayObject;
 
 /**
@@ -65,7 +64,7 @@ use Zend\Stdlib\ArrayObject;
  * @property                     $comm_old
  * @property                     $smileys
  * @property                     $ban
- * @property UserConfigInterface $config
+ * @property UserConfig $config
  */
 class User extends ArrayObject
 {
