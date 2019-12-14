@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Johncms\System\Config;
 
-use Johncms\Api\ConfigInterface;
 use ArrayObject;
 
 /**
