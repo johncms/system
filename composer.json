@@ -9,7 +9,9 @@
         "cms"
     ],
     "require": {
-        "php": "^7.2"
+        "php": "^7.2",
+        "zendframework/zend-config-aggregator": "^1.1",
+        "zendframework/zend-servicemanager": "^3.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",
@@ -22,6 +24,9 @@
         }
     },
     "autoload-dev": {
+        "files": [
+            "tests/constants.php"
+        ],
         "psr-4": {
             "Johncms\\System\\Tests\\": "tests/"
         }
