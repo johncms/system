@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Johncms\System\Utility;
 
 use Johncms\System\Config\Config;
-use Johncms\Api\ToolsInterface;
+use Johncms\System\Utility\Tools;
 use Johncms\System\Users\User;
 use Johncms\System\Container\Factory;
 use Johncms\System\Users\UserConfig;
@@ -162,8 +162,8 @@ class Bbcode
                 $res_sm .= '<a href="javascript:tag(\':' . $value . '\', \':\'); show_hide(\'sm\');">:' . $value . ':</a> '; // phpcs:ignore
             }
 
-            /** @var ToolsInterface $tools */
-            $tools = Factory::getContainer()->get(ToolsInterface::class);
+            /** @var Tools $tools */
+            $tools = Factory::getContainer()->get(Tools::class);
 
             $bb_smileys .= $tools->smilies($res_sm, $this->user->rights >= 1 ? 1 : 0);
         } else {

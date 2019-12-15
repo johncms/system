@@ -21,6 +21,7 @@ use Johncms\System\{
     Users\User,
     Users\UserFactory,
     Utility\Bbcode,
+    Utility\Tools,
     View\Render,
     View\RenderEngineFactory
 };
@@ -51,6 +52,7 @@ class ConfigProvider
                 RouteCollector::class => RouteCollectorFactory::class,
                 PDO::class            => PdoFactory::class,
                 Render::class         => RenderEngineFactory::class,
+                Tools::class          => Tools::class,
                 Translator::class     => TranslatorServiceFactory::class,
                 User::class           => UserFactory::class,
             ],

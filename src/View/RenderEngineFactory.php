@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Johncms\System\View;
 
-use Johncms\Api\ToolsInterface;
+use Johncms\System\Utility\Tools;
 use Johncms\System\Users\User;
 use Johncms\System\View\Extension\Assets;
 use Johncms\System\Config\Config;
@@ -34,7 +34,7 @@ class RenderEngineFactory
                 'container' => $container,
                 'config'    => $config,
                 'locale'    => $container->get(Translator::class)->getLocale(),
-                'tools'     => $container->get(ToolsInterface::class),
+                'tools'     => $container->get(Tools::class),
                 'user'      => $container->get(User::class),
             ]
         );
