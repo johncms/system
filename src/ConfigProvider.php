@@ -20,6 +20,7 @@ use Johncms\System\{
     Router\RouteCollectorFactory,
     Users\User,
     Users\UserFactory,
+    Utility\Bbcode,
     View\Render,
     View\RenderEngineFactory
 };
@@ -44,6 +45,7 @@ class ConfigProvider
 
             'factories' => [
                 Assets::class         => Assets::class,
+                Bbcode::class         => Bbcode::class,
                 Config\Config::class  => Config\ConfigFactory::class,
                 Environment::class    => Environment::class,
                 RouteCollector::class => RouteCollectorFactory::class,
