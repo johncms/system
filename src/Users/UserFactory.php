@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Johncms\System\Users;
 
-use Johncms\Api\EnvironmentInterface;
+use Johncms\System\Http\Environment;
 use Psr\Container\ContainerInterface;
 
 class UserFactory
@@ -23,7 +23,7 @@ class UserFactory
     private $db;
 
     /**
-     * @var EnvironmentInterface
+     * @var Environment
      */
     private $env;
 
@@ -32,7 +32,7 @@ class UserFactory
     public function __invoke(ContainerInterface $container)
     {
         $this->db = $container->get(\PDO::class);
-        $this->env = $container->get(EnvironmentInterface::class);
+        $this->env = $container->get(Environment::class);
         $this->userData = $this->authorize();
 
         return new User($this->userData);

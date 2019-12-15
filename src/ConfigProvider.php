@@ -15,6 +15,7 @@ namespace Johncms\System;
 use Johncms\System\{
     Config,
     Database\PdoFactory,
+    Http\Environment,
     i18n\TranslatorServiceFactory,
     Router\RouteCollectorFactory,
     Users\User,
@@ -44,6 +45,7 @@ class ConfigProvider
             'factories' => [
                 Assets::class         => Assets::class,
                 Config\Config::class  => Config\ConfigFactory::class,
+                Environment::class    => Environment::class,
                 RouteCollector::class => RouteCollectorFactory::class,
                 PDO::class            => PdoFactory::class,
                 Render::class         => RenderEngineFactory::class,
