@@ -11,6 +11,7 @@
     "require": {
         "php": "^7.2",
         "ext-pdo": "*",
+        "mobicms/render": "^1.1",
         "zendframework/zend-config-aggregator": "^1.1",
         "zendframework/zend-i18n": "^2.10",
         "zendframework/zend-servicemanager": "^3.4"
