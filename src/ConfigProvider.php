@@ -16,11 +16,13 @@ use Johncms\System\{
     Config,
     Database\PdoFactory,
     i18n\TranslatorServiceFactory,
+    Router\RouteCollectorFactory,
     Users\User,
     Users\UserFactory,
     View\Render,
     View\RenderEngineFactory
 };
+use FastRoute\RouteCollector;
 use Johncms\System\View\Extension\Assets;
 use PDO;
 use Zend\I18n\Translator\Translator;
@@ -40,12 +42,13 @@ class ConfigProvider
             'aliases' => [],
 
             'factories' => [
-                Assets::class        => Assets::class,
-                Config\Config::class => Config\ConfigFactory::class,
-                PDO::class           => PdoFactory::class,
-                Render::class        => RenderEngineFactory::class,
-                Translator::class    => TranslatorServiceFactory::class,
-                User::class          => UserFactory::class,
+                Assets::class         => Assets::class,
+                Config\Config::class  => Config\ConfigFactory::class,
+                RouteCollector::class => RouteCollectorFactory::class,
+                PDO::class            => PdoFactory::class,
+                Render::class         => RenderEngineFactory::class,
+                Translator::class     => TranslatorServiceFactory::class,
+                User::class           => UserFactory::class,
             ],
 
             'invokables' => [],
