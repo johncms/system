@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Johncms\System;
 
-use Johncms\System\{
-    Config,
+use Johncms\System\{Config,
     Database\PdoFactory,
     Http\Environment,
+    Http\ServerRequestFactory,
     i18n\TranslatorServiceFactory,
     Router\RouteCollectorFactory,
     Users\User,
@@ -28,6 +28,7 @@ use Johncms\System\{
 use FastRoute\RouteCollector;
 use Johncms\System\View\Extension\Assets;
 use PDO;
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\I18n\Translator\Translator;
 
 class ConfigProvider
@@ -45,16 +46,17 @@ class ConfigProvider
             'aliases' => [],
 
             'factories' => [
-                Assets::class         => Assets::class,
-                Bbcode::class         => Bbcode::class,
-                Config\Config::class  => Config\ConfigFactory::class,
-                Environment::class    => Environment::class,
-                RouteCollector::class => RouteCollectorFactory::class,
-                PDO::class            => PdoFactory::class,
-                Render::class         => RenderEngineFactory::class,
-                Tools::class          => Tools::class,
-                Translator::class     => TranslatorServiceFactory::class,
-                User::class           => UserFactory::class,
+                Assets::class                 => Assets::class,
+                Bbcode::class                 => Bbcode::class,
+                Config\Config::class          => Config\ConfigFactory::class,
+                Environment::class            => Environment::class,
+                RouteCollector::class         => RouteCollectorFactory::class,
+                PDO::class                    => PdoFactory::class,
+                Render::class                 => RenderEngineFactory::class,
+                ServerRequestInterface::class => ServerRequestFactory::class,
+                Tools::class                  => Tools::class,
+                Translator::class             => TranslatorServiceFactory::class,
+                User::class                   => UserFactory::class,
             ],
 
             'invokables' => [],

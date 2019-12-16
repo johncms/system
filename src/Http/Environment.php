@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Johncms\System\Http;
 
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Environment
 {
@@ -24,14 +25,17 @@ class Environment
 
     private $ipCount = [];
 
-    /**
-     * @var ContainerInterface
-     */
+    /** @var ContainerInterface */
     private $container;
+
+    /** @var array */
+    private $server;
 
     public function __invoke(ContainerInterface $container)
     {
         $this->container = $container;
+        $request = $container->get(ServerRequestInterface::class);
+        $this->server = $request->getServerParams();
         $this->ipLog($this->getIp());
 
         return $this;
@@ -40,7 +44,7 @@ class Environment
     public function getIp(): int
     {
         if (null === $this->ip) {
-            $ip = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP);
+            $ip = filter_var($this->server['REMOTE_ADDR'], FILTER_VALIDATE_IP);
             $ip = ip2long($ip);
             $this->ip = sprintf('%u', $ip);
         }
@@ -55,10 +59,10 @@ class Environment
         }
 
         if (
-            isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+            isset($this->server['HTTP_X_FORWARDED_FOR'])
             && preg_match_all(
                 '#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s',
-                filter_var($_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_SANITIZE_STRING),
+                filter_var($this->server['HTTP_X_FORWARDED_FOR'], FILTER_SANITIZE_STRING),
                 $vars
             )
         ) {
@@ -79,14 +83,18 @@ class Environment
         if ($this->userAgent !== null) {
             return $this->userAgent;
         } elseif (
-            isset($_SERVER['HTTP_X_OPERAMINI_PHONE_UA'])
-            && strlen(trim($_SERVER['HTTP_X_OPERAMINI_PHONE_UA'])) > 5
+            isset($this->server['HTTP_X_OPERAMINI_PHONE_UA'])
+            && strlen(trim($this->server['HTTP_X_OPERAMINI_PHONE_UA'])) > 5
         ) {
             return $this->userAgent = 'Opera Mini: ' .
-                mb_substr(filter_var($_SERVER['HTTP_X_OPERAMINI_PHONE_UA'], FILTER_SANITIZE_SPECIAL_CHARS), 0, 150);
-        } elseif (isset($_SERVER['HTTP_USER_AGENT'])) {
+                mb_substr(
+                    filter_var($this->server['HTTP_X_OPERAMINI_PHONE_UA'], FILTER_SANITIZE_SPECIAL_CHARS),
+                    0,
+                    150
+                );
+        } elseif (isset($this->server['HTTP_USER_AGENT'])) {
             return $this->userAgent = mb_substr(
-                filter_var($_SERVER['HTTP_USER_AGENT'], FILTER_SANITIZE_SPECIAL_CHARS),
+                filter_var($this->server['HTTP_USER_AGENT'], FILTER_SANITIZE_SPECIAL_CHARS),
                 0,
                 150
             );
@@ -133,7 +141,7 @@ class Environment
         fseek($in, 0);
         ftruncate($in, 0);
 
-        for ($i = 0; $i < count($tmp); $i++) {
+        for ($i = 0, $iMax = count($tmp); $i < $iMax; $i++) {
             fwrite($in, pack('LL', $tmp[$i]['ip'], $tmp[$i]['time']));
         }
 
