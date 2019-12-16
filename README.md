@@ -2,15 +2,14 @@
 
 This package is part of [JohnCMS](https://github.com/johncms/johncms).
 
-[![GitHub Workflow Status](https://github.com/johncms/system/workflows/tests/badge.svg)](https://github.com/johncms/system/actions)
-[![Code Coverage](https://scrutinizer-ci.com/g/johncms/system/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/johncms/system/?branch=develop)
-[![StyleCI](https://github.styleci.io/repos/227816655/shield?branch=develop)](https://github.styleci.io/repos/227816655)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johncms/system/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/johncms/system/?branch=develop)
-
 [![GitHub](https://img.shields.io/github/license/johncms/system?color=blue)](https://github.com/johncms/system/blob/develop/LICENSE)
 [![Source Code](http://img.shields.io/badge/source-johncms/system-blue.svg)](https://github.com/johncms/system)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/johncms/system.svg?label=stable)](https://github.com/johncms/system/releases)
 [![Packagist](https://img.shields.io/packagist/dt/johncms/system)](https://packagist.org/packages/mobicms/render)
+
+[![GitHub Workflow Status](https://github.com/johncms/system/workflows/tests/badge.svg)](https://github.com/johncms/system/actions)
+[![Code Coverage](https://scrutinizer-ci.com/g/johncms/system/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/johncms/system/?branch=develop)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johncms/system/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/johncms/system/?branch=develop)
 
 ## Installation
 
