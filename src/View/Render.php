@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Johncms\System\View;
 
 use Mobicms\Render\Engine;
+use Throwable;
 
 class Render extends Engine
 {
@@ -41,7 +42,7 @@ class Render extends Engine
     {
         try {
             return parent::render($name, $data);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return $e->getMessage();
         }
     }
