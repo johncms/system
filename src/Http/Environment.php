@@ -111,8 +111,7 @@ class Environment
             $in = fopen($file, 'r+');
         }
 
-        if (false !== $in) {
-            flock($in, LOCK_EX) || die('Cannot flock ANTIFLOOD file.');
+        if (false !== $in && flock($in, LOCK_EX)) {
             $now = time();
 
             while ($block = fread($in, 8)) {
