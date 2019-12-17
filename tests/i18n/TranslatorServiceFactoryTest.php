@@ -29,16 +29,15 @@ class TranslatorServiceFactoryTest extends TestCase
     public function setUp(): void
     {
         $container = new ServiceManager();
-        $container->setService('config', []);
         $container->setService(
-            Config::class,
-            new Config(
-                [
-                    'lng'      => 'en',
-                    'lng_list' => ['en', 'ru', 'ge'],
-                ],
-                ArrayObject::ARRAY_AS_PROPS
-            )
+            'config',
+            [
+                'johncms' =>
+                    [
+                        'lng'      => 'en',
+                        'lng_list' => ['en', 'ru', 'ge'],
+                    ],
+            ]
         );
         $config = serialize(['lng' => 'ru']);
         $container->setService(User::class, new User(['set_user' => $config]));
