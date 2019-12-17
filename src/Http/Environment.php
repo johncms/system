@@ -111,28 +111,30 @@ class Environment
             $in = fopen($file, 'r+');
         }
 
-        flock($in, LOCK_EX) || die('Cannot flock ANTIFLOOD file.');
-        $now = time();
+        if (false !== $in) {
+            flock($in, LOCK_EX) || die('Cannot flock ANTIFLOOD file.');
+            $now = time();
 
-        while ($block = fread($in, 8)) {
-            $arr = unpack('Lip/Ltime', $block);
+            while ($block = fread($in, 8)) {
+                $arr = unpack('Lip/Ltime', $block);
 
-            if (($now - $arr['time']) > 60) {
-                continue;
+                if (($now - $arr['time']) > 60) {
+                    continue;
+                }
+
+                $tmp[] = $arr;
+                $this->ipCount[] = $arr['ip'];
             }
 
-            $tmp[] = $arr;
-            $this->ipCount[] = $arr['ip'];
+            fseek($in, 0);
+            ftruncate($in, 0);
+
+            foreach ($tmp as $iValue) {
+                fwrite($in, pack('LL', $iValue['ip'], $iValue['time']));
+            }
+
+            fwrite($in, pack('LL', $ip, $now));
+            fclose($in);
         }
-
-        fseek($in, 0);
-        ftruncate($in, 0);
-
-        foreach ($tmp as $iValue) {
-            fwrite($in, pack('LL', $iValue['ip'], $iValue['time']));
-        }
-
-        fwrite($in, pack('LL', $ip, $now));
-        fclose($in);
     }
 }
