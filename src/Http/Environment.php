@@ -82,17 +82,9 @@ class Environment
     {
         if ($this->userAgent !== null) {
             return $this->userAgent;
-        } elseif (
-            isset($this->server['HTTP_X_OPERAMINI_PHONE_UA'])
-            && strlen(trim($this->server['HTTP_X_OPERAMINI_PHONE_UA'])) > 5
-        ) {
-            return $this->userAgent = 'Opera Mini: ' .
-                mb_substr(
-                    filter_var($this->server['HTTP_X_OPERAMINI_PHONE_UA'], FILTER_SANITIZE_SPECIAL_CHARS),
-                    0,
-                    150
-                );
-        } elseif (isset($this->server['HTTP_USER_AGENT'])) {
+        }
+
+        if (isset($this->server['HTTP_USER_AGENT'])) {
             return $this->userAgent = mb_substr(
                 filter_var($this->server['HTTP_USER_AGENT'], FILTER_SANITIZE_SPECIAL_CHARS),
                 0,
@@ -112,7 +104,6 @@ class Environment
     {
         $file = CACHE_PATH . 'ip-requests-list.cache';
         $tmp = [];
-        $requests = 1;
 
         if (! file_exists($file)) {
             $in = fopen($file, 'w+');
@@ -130,10 +121,6 @@ class Environment
                 continue;
             }
 
-            if ($arr['ip'] == $ip) {
-                $requests++;
-            }
-
             $tmp[] = $arr;
             $this->ipCount[] = $arr['ip'];
         }
@@ -141,8 +128,8 @@ class Environment
         fseek($in, 0);
         ftruncate($in, 0);
 
-        for ($i = 0, $iMax = count($tmp); $i < $iMax; $i++) {
-            fwrite($in, pack('LL', $tmp[$i]['ip'], $tmp[$i]['time']));
+        foreach ($tmp as $iValue) {
+            fwrite($in, pack('LL', $iValue['ip'], $iValue['time']));
         }
 
         fwrite($in, pack('LL', $ip, $now));

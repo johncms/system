@@ -4,4 +4,6 @@ clover.xml
 phpunit.xml
 psalm.xml
 /*.cache
+/tests/_data/cache/*
+!/tests/_data/cache/.gitkeep
 vendor/
