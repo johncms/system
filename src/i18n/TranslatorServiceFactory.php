@@ -19,10 +19,14 @@ use Zend\I18n\Translator\Translator;
 
 class TranslatorServiceFactory
 {
+    /** @var array */
+    private $config;
+
     public function __invoke(ContainerInterface $container)
     {
         // Configure the translator
         $config = $container->get('config');
+        $this->config = $config['johncms'] ?? [];
         $trConfig = $config['translator'] ?? [];
         $translator = Translator::factory($trConfig);
         $translator->setLocale($this->determineLocale($container));
@@ -43,22 +47,19 @@ class TranslatorServiceFactory
      */
     private function determineLocale(ContainerInterface $container): string
     {
-        /** @var Config $config */
-        $config = $container->get(Config::class);
-
         /** @var User $userConfig */
         $userConfig = $container->get(User::class)->config;
 
-        if (isset($_POST['setlng']) && array_key_exists($_POST['setlng'], $config->lng_list)) {
+        if (isset($_POST['setlng']) && array_key_exists($_POST['setlng'], $this->config['lng_list'])) {
             $locale = trim($_POST['setlng']);
             $_SESSION['lng'] = $locale;
-        } elseif (isset($_SESSION['lng']) && array_key_exists($_SESSION['lng'], $config->lng_list)) {
+        } elseif (isset($_SESSION['lng']) && array_key_exists($_SESSION['lng'], $this->config['lng_list'])) {
             $locale = $_SESSION['lng'];
-        } elseif (isset($userConfig['lng']) && array_key_exists($userConfig['lng'], $config->lng_list)) {
+        } elseif (isset($userConfig['lng']) && array_key_exists($userConfig['lng'], $this->config['lng_list'])) {
             $locale = $userConfig['lng'];
             $_SESSION['lng'] = $locale;
         } else {
-            $locale = $config->lng;
+            $locale = $this->config['lng'];
         }
 
         return $locale;
