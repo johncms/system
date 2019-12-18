@@ -10,19 +10,19 @@
 
 declare(strict_types=1);
 
-namespace JohncmsTests\System\View;
+namespace Tests\Unit\View;
 
+use Codeception\Test\Unit;
 use Johncms\System\Config\Config;
 use Johncms\System\Users\User;
 use Johncms\System\Utility\Tools;
 use Johncms\System\View\Extension\Assets;
 use Johncms\System\View\Render;
 use Johncms\System\View\RenderEngineFactory;
-use PHPUnit\Framework\TestCase;
 use Zend\I18n\Translator\Translator;
 use Zend\ServiceManager\ServiceManager;
 
-class RenderEngineFactoryTest extends TestCase
+class RenderEngineFactoryTest extends Unit
 {
     public function testFactoryReturnsRenderInstance(): Render
     {

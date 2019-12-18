@@ -10,16 +10,16 @@
 
 declare(strict_types=1);
 
-namespace JohncmsTests\System\Config;
+namespace Tests\Unit\Config;
 
+use Codeception\Test\Unit;
 use Johncms\System\Config\Config;
 use Johncms\System\Config\ConfigFactory;
-use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\ServiceManager;
 
-class ConfigFactoryTest extends TestCase
+class ConfigFactoryTest extends Unit
 {
-    public function testFactoryReturnsConfigInstance(): void
+    public function testReturnsConfigInstance(): void
     {
         /** @var ServiceManager $container */
         $container = new ServiceManager();

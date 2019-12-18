@@ -10,18 +10,16 @@
 
 declare(strict_types=1);
 
-namespace JohncmsTests\System\i18n;
+namespace Tests\Unit\i18n;
 
-use ArrayObject;
-use Johncms\System\Config\Config;
+use Codeception\Test\Unit;
 use Johncms\System\i18n\TranslatorServiceFactory;
 use Johncms\System\Users\User;
-use PHPUnit\Framework\TestCase;
 use Zend\I18n\Translator\LoaderPluginManager;
 use Zend\I18n\Translator\Translator;
 use Zend\ServiceManager\ServiceManager;
 
-class TranslatorServiceFactoryTest extends TestCase
+class TranslatorServiceFactoryTest extends Unit
 {
     /** @var ServiceManager */
     private $container;

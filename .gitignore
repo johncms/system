@@ -1,9 +1,7 @@
 .idea
 composer.lock
 clover.xml
-phpunit.xml
+codeception.yml
 psalm.xml
 /*.cache
-/tests/_data/cache/*
-!/tests/_data/cache/.gitkeep
 vendor/

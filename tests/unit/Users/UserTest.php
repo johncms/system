@@ -10,13 +10,13 @@
 
 declare(strict_types=1);
 
-namespace JohncmsTests\System\Users;
+namespace Tests\Unit\Users;
 
+use Codeception\Test\Unit;
 use Johncms\System\Users\User;
 use LogicException;
-use PHPUnit\Framework\TestCase;
 
-class UserTest extends TestCase
+class UserTest extends Unit
 {
 
     public function testCanCreateInstance()

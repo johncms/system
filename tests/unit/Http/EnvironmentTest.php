@@ -10,16 +10,16 @@
 
 declare(strict_types=1);
 
-namespace JohncmsTests\System\i18n;
+namespace Tests\Unit\i18n;
 
+use Codeception\Test\Unit;
 use GuzzleHttp\Psr7\ServerRequest;
 use GuzzleHttp\Psr7\Uri;
 use Johncms\System\Http\Environment;
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\ServiceManager\ServiceManager;
 
-class EnvironmentTest extends TestCase
+class EnvironmentTest extends Unit
 {
     private $request;
 

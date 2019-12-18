@@ -10,12 +10,12 @@
 
 declare(strict_types=1);
 
-namespace JohncmsTests\System\Container;
+namespace Tests\Unit\Container;
 
+use Codeception\Test\Unit;
 use Johncms\System\Container\Config;
-use PHPUnit\Framework\TestCase;
 
-class ConfigTest extends TestCase
+class ConfigTest extends Unit
 {
     public function testConfigReturnsArray(): void
     {

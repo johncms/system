@@ -10,13 +10,13 @@
 
 declare(strict_types=1);
 
-namespace JohncmsTests\System\Container;
+namespace Tests\Unit\Container;
 
+use Codeception\Test\Unit;
 use Johncms\System\Container\Factory;
-use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\ServiceManager;
 
-class FactoryTest extends TestCase
+class FactoryTest extends Unit
 {
     public function testGetContainer(): void
     {

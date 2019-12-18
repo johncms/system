@@ -10,14 +10,14 @@
 
 declare(strict_types=1);
 
-namespace JohncmsTests\System\Http;
+namespace Tests\Unit\Http;
 
+use Codeception\Test\Unit;
 use Johncms\System\Http\ServerRequestFactory;
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\ServiceManager\ServiceManager;
 
-class ServerRequestFactoryTest extends TestCase
+class ServerRequestFactoryTest extends Unit
 {
     public function testFactoryReturnsServerRequestInstance(): void
     {

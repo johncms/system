@@ -10,14 +10,14 @@
 
 declare(strict_types=1);
 
-namespace JohncmsTests\System;
+namespace Tests\Unit;
 
+use Codeception\Test\Unit;
 use Johncms\System\ConfigProvider;
-use PHPUnit\Framework\TestCase;
 
-class ConfigProviderTest extends TestCase
+class ConfigProviderTest extends Unit
 {
-    public function testConfigProviderReturnsArray(): void
+    public function testReturnsArrayWithMandatoryKeys()
     {
         $config = (new ConfigProvider())();
         $this->assertIsArray($config);

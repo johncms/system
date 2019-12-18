@@ -10,15 +10,15 @@
 
 declare(strict_types=1);
 
-namespace JohncmsTests\System\Database;
+namespace Tests\Unit\Database;
 
+use Codeception\Test\Unit;
 use Johncms\System\Database\PdoFactory;
 use PDO;
 use PDOException;
-use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\ServiceManager;
 
-class PdoFactoryTest extends TestCase
+class PdoFactoryTest extends Unit
 {
     public function testFactoryReturnsPdoInstance()
     {

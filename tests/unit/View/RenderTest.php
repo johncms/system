@@ -10,14 +10,13 @@
 
 declare(strict_types=1);
 
-namespace JohncmsTests\System\View;
+namespace Tests\Unit\View;
 
+use Codeception\Test\Unit;
 use Johncms\System\View\Render;
-use LogicException;
 use org\bovigo\vfs\vfsStream;
-use PHPUnit\Framework\TestCase;
 
-class RenderTest extends TestCase
+class RenderTest extends Unit
 {
     /** @var Render */
     private $render;
