@@ -17,6 +17,7 @@ use Johncms\System\Config\Config;
 use Johncms\System\Users\User;
 use Johncms\System\Utility\Tools;
 use Johncms\System\View\Extension\Assets;
+use Johncms\System\View\Extension\Avatar;
 use Johncms\System\View\Render;
 use Johncms\System\View\RenderEngineFactory;
 use Zend\I18n\Translator\Translator;
@@ -35,6 +36,7 @@ class RenderEngineFactoryTest extends Unit
         $container->setService(Tools::class, $this->prophesize(Tools::class)->reveal());
         $container->setService(User::class, $this->prophesize(User::class)->reveal());
         $container->setService(Assets::class, (new Assets())($container));
+        $container->setService(Avatar::class, (new Avatar())($container));
 
         $instance = (new RenderEngineFactory())($container);
         $this->assertInstanceOf(Render::class, $instance);

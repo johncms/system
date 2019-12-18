@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace Johncms\System\View;
 
-use Johncms\System\Utility\Tools;
-use Johncms\System\Users\User;
-use Johncms\System\View\Extension\Assets;
 use Johncms\System\Config\Config;
+use Johncms\System\Users\User;
+use Johncms\System\Utility\Tools;
+use Johncms\System\View\Extension\Assets;
+use Johncms\System\View\Extension\Avatar;
 use Psr\Container\ContainerInterface;
 use Zend\I18n\Translator\Translator;
 
@@ -29,6 +30,7 @@ class RenderEngineFactory
         $engine->setTheme($config->skindef);
         $engine->addFolder('system', realpath(THEMES_PATH . 'default/templates/system'));
         $engine->loadExtension($container->get(Assets::class));
+        $engine->loadExtension($container->get(Avatar::class));
         $engine->addData(
             [
                 'container' => $container,

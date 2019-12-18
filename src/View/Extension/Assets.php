@@ -52,7 +52,7 @@ class Assets implements ExtensionInterface
         throw new \InvalidArgumentException('Unable to locate the asset: ' . $resultUrl);
     }
 
-    private function urlFromPath(string $path, string $rootPath, string $baseUrl): string
+    public function urlFromPath(string $path, string $rootPath, string $baseUrl): string
     {
         $diff = array_diff(
             explode(DIRECTORY_SEPARATOR, realpath($path)),

@@ -27,6 +27,7 @@ use Johncms\System\{Config,
 };
 use FastRoute\RouteCollector;
 use Johncms\System\View\Extension\Assets;
+use Johncms\System\View\Extension\Avatar;
 use PDO;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\I18n\Translator\Translator;
@@ -47,6 +48,7 @@ class ConfigProvider
 
             'factories' => [
                 Assets::class                 => Assets::class,
+                Avatar::class                 => Avatar::class,
                 Bbcode::class                 => Bbcode::class,
                 Config\Config::class          => Config\ConfigFactory::class,
                 Environment::class            => Environment::class,
