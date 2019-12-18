@@ -27,7 +27,7 @@ class Render extends Engine
     public function addFolder(string $name, string $directory, array $search = []): Engine
     {
         $searchFolder = $this->theme !== 'default'
-            ? [realpath(ROOT_PATH . 'themes/' . $this->theme . '/templates/' . $name)]
+            ? [realpath(THEMES_PATH . $this->theme . '/templates/' . $name)]
             : [];
 
         return parent::addFolder($name, $directory, $searchFolder);

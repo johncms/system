@@ -39,8 +39,8 @@ class Assets implements ExtensionInterface
         $url = ltrim($url, '/');
 
         foreach ([$this->config->skindef, 'default'] as $skin) {
-            $file = (string) realpath(ROOT_PATH . 'themes/' . $skin . '/assets/' . $url);
-            $resultUrl = $this->config->homeurl . '/themes/' . $skin . '/assets/' . $url;
+            $file = (string) realpath(THEMES_PATH . $skin . '/assets/' . $url);
+            $resultUrl = $this->urlFromPath($file, ROOT_PATH, $this->config->homeurl);
 
             if (is_file($file)) {
                 return $versionStamp
@@ -50,5 +50,15 @@ class Assets implements ExtensionInterface
         }
 
         throw new \InvalidArgumentException('Unable to locate the asset: ' . $resultUrl);
+    }
+
+    private function urlFromPath(string $path, string $rootPath, string $baseUrl): string
+    {
+        $diff = array_diff(
+            explode(DIRECTORY_SEPARATOR, realpath($path)),
+            explode(DIRECTORY_SEPARATOR, realpath($rootPath))
+        );
+
+        return rtrim($baseUrl, '/') . '/' . implode('/', $diff);
     }
 }

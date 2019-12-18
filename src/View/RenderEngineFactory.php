@@ -27,7 +27,7 @@ class RenderEngineFactory
         $config = $container->get(Config::class);
         $engine = new Render('phtml');
         $engine->setTheme($config->skindef);
-        $engine->addFolder('system', realpath(ROOT_PATH . 'themes/default/templates/system'));
+        $engine->addFolder('system', realpath(THEMES_PATH . 'default/templates/system'));
         $engine->loadExtension($container->get(Assets::class));
         $engine->addData(
             [
