@@ -1,0 +1,40 @@
+language: php
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  include:
+    - php: 7.2
+    - php: 7.3
+      env:
+        - LINT=true
+        - CS_CHECK=true
+        - TEST_COVERAGE=true
+        - ANALYSIS=true
+    - php: 7.4
+
+before_install:
+  - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0; fi
+
+install:
+  - travis_retry composer install --no-interaction --ignore-platform-reqs
+  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev --no-interaction php-coveralls/php-coveralls; fi
+  - stty cols 120 && composer show
+
+script:
+  - if [[ $LINT == 'true' ]]; then composer lint; fi
+  - if [[ $CS_CHECK == 'true' ]]; then composer cs-check; fi
+  - if [[ $ANALYSIS == 'true' ]]; then composer psalm; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage; else composer test; fi
+
+after_script:
+  - if [[ $TEST_COVERAGE == 'true' ]]; then
+    travis_retry php vendor/bin/php-coveralls -v;
+    wget https://scrutinizer-ci.com/ocular.phar;
+    php ocular.phar code-coverage:upload --format=php-clover clover.xml;
+    fi
+
+notifications:
+  email: false
