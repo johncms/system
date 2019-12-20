@@ -7,7 +7,7 @@ This package is part of [JohnCMS](https://github.com/johncms/johncms).
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/johncms/system.svg?label=stable)](https://github.com/johncms/system/releases)
 [![Packagist](https://img.shields.io/packagist/dt/johncms/system)](https://packagist.org/packages/mobicms/render)
 
-[![GitHub Workflow Status](https://github.com/johncms/system/workflows/tests/badge.svg)](https://github.com/johncms/system/actions)
+[![Build Status](https://travis-ci.org/johncms/system.svg?branch=develop)](https://travis-ci.org/johncms/system)
 [![Code Coverage](https://scrutinizer-ci.com/g/johncms/system/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/johncms/system/code-structure/develop/code-coverage/src/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johncms/system/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/johncms/system/?branch=develop)
 
