@@ -238,7 +238,7 @@ class Tools
     /**
      * Показываем местоположение пользователя
      */
-    public function displayPlace(string $place, int $userId = 0): string
+    public function displayPlace(string $place): string
     {
         $place = rtrim($place, '/');
 

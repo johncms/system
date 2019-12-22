@@ -84,7 +84,7 @@ class UserClean
             while ($res = $req->fetch()) {
                 // Удаляем файлы почты
                 if (is_file(UPLOAD_PATH . 'mail/' . $res['file_name'])) {
-                    @unlink(UPLOAD_PATH . 'mail/' . $res['file_name']);
+                    unlink(UPLOAD_PATH . 'mail/' . $res['file_name']);
                 }
             }
         }
@@ -139,8 +139,6 @@ class UserClean
         $req = $this->db->query('SELECT `name` FROM `users` WHERE `id` = ' . $clean_id);
 
         if ($req->rowCount()) {
-            $res = $req->fetch();
-
             // Удаляем из Библиотеки
             $this->db->exec("DELETE FROM `cms_library_comments` WHERE `user_id` = '" . $clean_id . "'");
             // Удаляем из Загрузок
