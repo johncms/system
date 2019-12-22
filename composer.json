@@ -30,6 +30,11 @@
             "Johncms\\System\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Unit\\": "tests/unit/"
+        }
+    },
     "scripts": {
         "check": [
             "@lint",
