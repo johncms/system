@@ -15,6 +15,8 @@ namespace Johncms\System\Users;
 use Zend\Stdlib\ArrayObject;
 
 /**
+ * Class User
+ *
  * @property int $id           Идентификатор пользователя
  * @property string $name         Никнейм пользователя
  * @property string $name_lat     (УСТАРЕЛО) Транслитерированный никнейм

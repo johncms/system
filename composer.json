@@ -31,6 +31,9 @@
         }
     },
     "autoload-dev": {
+        "files": [
+            "tests/constants.php"
+        ],
         "psr-4": {
             "Tests\\Unit\\": "tests/unit/"
         }
