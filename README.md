@@ -11,22 +11,6 @@ This package is part of [JohnCMS](https://github.com/johncms/johncms).
 [![Code Coverage](https://scrutinizer-ci.com/g/johncms/system/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/johncms/system/code-structure/develop/code-coverage/src/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johncms/system/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/johncms/system/?branch=develop)
 
-## Installation
-
-The preferred method of installation is via [Composer](http://getcomposer.org). Run the following
-command to install the package and add it as a requirement to your project's
-`composer.json`:
-
-```bash
-composer require johncms/system
-```
-
-
-## Documentation
-
-Check out the [documentation wiki](https://github.com/johncms/system/wiki) for detailed information
-and code examples.
-
 
 ## Contributing
 
