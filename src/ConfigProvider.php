@@ -12,10 +12,12 @@ declare(strict_types=1);
 
 namespace Johncms\System;
 
+use FastRoute\RouteCollector;
 use Johncms\System\{Config,
     Database\PdoFactory,
     Http\Environment,
-    Http\ServerRequestFactory,
+    Http\Request,
+    Http\RequestFactory,
     i18n\TranslatorServiceFactory,
     Router\RouteCollectorFactory,
     Users\User,
@@ -25,9 +27,10 @@ use Johncms\System\{Config,
     View\Render,
     View\RenderEngineFactory
 };
-use FastRoute\RouteCollector;
-use Johncms\System\View\Extension\Assets;
-use Johncms\System\View\Extension\Avatar;
+use Johncms\System\View\Extension\{
+    Assets,
+    Avatar
+};
 use PDO;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\I18n\Translator\Translator;
@@ -44,21 +47,23 @@ class ConfigProvider
     private function getDependencies(): array
     {
         return [
-            'aliases' => [],
+            'aliases' => [
+                ServerRequestInterface::class => Request::class,
+            ],
 
             'factories' => [
-                Assets::class                 => Assets::class,
-                Avatar::class                 => Avatar::class,
-                Bbcode::class                 => Bbcode::class,
-                Config\Config::class          => Config\ConfigFactory::class,
-                Environment::class            => Environment::class,
-                RouteCollector::class         => RouteCollectorFactory::class,
-                PDO::class                    => PdoFactory::class,
-                Render::class                 => RenderEngineFactory::class,
-                ServerRequestInterface::class => ServerRequestFactory::class,
-                Tools::class                  => Tools::class,
-                Translator::class             => TranslatorServiceFactory::class,
-                User::class                   => UserFactory::class,
+                Assets::class         => Assets::class,
+                Avatar::class         => Avatar::class,
+                Bbcode::class         => Bbcode::class,
+                Config\Config::class  => Config\ConfigFactory::class,
+                Environment::class    => Environment::class,
+                RouteCollector::class => RouteCollectorFactory::class,
+                PDO::class            => PdoFactory::class,
+                Render::class         => RenderEngineFactory::class,
+                Request::class        => RequestFactory::class,
+                Tools::class          => Tools::class,
+                Translator::class     => TranslatorServiceFactory::class,
+                User::class           => UserFactory::class,
             ],
 
             'invokables' => [],

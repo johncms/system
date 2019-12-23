@@ -12,13 +12,12 @@ declare(strict_types=1);
 
 namespace Johncms\System\Http;
 
-use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Container\ContainerInterface;
 
-class ServerRequestFactory
+class RequestFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        return ServerRequest::fromGlobals();
+        return Request::fromGlobals();
     }
 }

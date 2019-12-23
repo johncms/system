@@ -13,16 +13,18 @@ declare(strict_types=1);
 namespace Tests\Unit\Http;
 
 use Codeception\Test\Unit;
-use Johncms\System\Http\ServerRequestFactory;
+use Johncms\System\Http\Request;
+use Johncms\System\Http\RequestFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\ServiceManager\ServiceManager;
 
-class ServerRequestFactoryTest extends Unit
+class RequestFactoryTest extends Unit
 {
     public function testFactoryReturnsServerRequestInstance(): void
     {
         $container = new ServiceManager();
-        $instance = (new ServerRequestFactory())($container);
+        $instance = (new RequestFactory())($container);
+        $this->assertInstanceOf(Request::class, $instance);
         $this->assertInstanceOf(ServerRequestInterface::class, $instance);
     }
 }
