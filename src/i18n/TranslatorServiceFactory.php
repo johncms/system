@@ -12,57 +12,50 @@ declare(strict_types=1);
 
 namespace Johncms\System\i18n;
 
+use Johncms\System\Http\Request;
 use Johncms\System\Users\User;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Zend\I18n\Translator\Translator;
 
 class TranslatorServiceFactory
 {
-    /** @var array */
-    private $config;
-
-    /** @var null|string */
-    private $setLng;
-
     public function __invoke(ContainerInterface $container)
     {
-        /** @var ServerRequestInterface $request */
-        $request = $container->get(ServerRequestInterface::class);
-        $this->setLng = $request->getParsedBody()['setlng'] ?? null;
+        /** @var Request $request */
+        $request = $container->get(Request::class);
+
+        /** @var User $userConfig */
+        $userConfig = $container->get(User::class)->config;
 
         // Configure the translator
         $config = $container->get('config');
-        $this->config = $config['johncms'] ?? [];
+
         $trConfig = $config['translator'] ?? [];
         $translator = Translator::factory($trConfig);
-        $translator->setLocale($this->determineLocale($container));
+        $translator->setLocale(
+            $this->determineLocale(
+                $userConfig['lng'] ?? '',
+                $config['johncms']['lng'] ?? 'en',
+                $config['johncms']['lng_list'] ?? [],
+                $request->getPost('setlng')
+            )
+        );
 
         return $translator;
     }
 
-    /**
-     * @psalm-suppress UndefinedPropertyFetch
-     * @psalm-suppress UndefinedInterfaceMethod
-     * @psalm-suppress RedundantConditionGivenDocblockType
-     * @param ContainerInterface $container
-     * @return string
-     */
-    private function determineLocale(ContainerInterface $container): string
+    private function determineLocale(string $userLng, string $systemLng, array $lngList, string $setLng = null): string
     {
-        /** @var User $userConfig */
-        $userConfig = $container->get(User::class)->config;
-
-        if (null !== $this->setLng && array_key_exists($this->setLng, $this->config['lng_list'])) {
-            $locale = trim($this->setLng);
+        if (null !== $setLng && array_key_exists($setLng, $lngList)) {
+            $locale = trim($setLng);
             $_SESSION['lng'] = $locale;
-        } elseif (isset($_SESSION['lng']) && array_key_exists($_SESSION['lng'], $this->config['lng_list'])) {
+        } elseif (isset($_SESSION['lng']) && array_key_exists($_SESSION['lng'], $lngList)) {
             $locale = $_SESSION['lng'];
-        } elseif (isset($userConfig['lng']) && array_key_exists($userConfig['lng'], $this->config['lng_list'])) {
-            $locale = $userConfig['lng'];
+        } elseif (array_key_exists($userLng, $lngList)) {
+            $locale = $userLng;
             $_SESSION['lng'] = $locale;
         } else {
-            $locale = $this->config['lng'];
+            $locale = $systemLng;
         }
 
         return $locale;

@@ -13,10 +13,9 @@ declare(strict_types=1);
 namespace Tests\Unit\i18n;
 
 use Codeception\Test\Unit;
-use GuzzleHttp\Psr7\ServerRequest;
+use Johncms\System\Http\Request;
 use Johncms\System\i18n\TranslatorServiceFactory;
 use Johncms\System\Users\User;
-use Psr\Http\Message\ServerRequestInterface;
 use Zend\I18n\Translator\Translator;
 use Zend\ServiceManager\ServiceManager;
 
@@ -82,14 +81,14 @@ class TranslatorServiceFactoryTest extends Unit
 
     private function getContainer($options = []): ServiceManager
     {
-        $request = new ServerRequest('POST', '');
+        $request = new Request('POST', '');
 
         if (isset($options['post'])) {
             $request = $request->withParsedBody(['setlng' => $options['post']]);
         }
 
         $container = new ServiceManager();
-        $container->setService(ServerRequestInterface::class, $request);
+        $container->setService(Request::class, $request);
 
         $container->setService(
             'config',
