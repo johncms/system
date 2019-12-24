@@ -46,4 +46,59 @@ class Request extends ServerRequest
             ->withParsedBody($_POST)
             ->withUploadedFiles(self::normalizeFiles($_FILES));
     }
+
+    /**
+     * @param string $name
+     * @param null|mixed $default
+     * @param int $filter
+     * @return mixed|null
+     */
+    public function getQuery(string $name, $default = null, int $filter = FILTER_DEFAULT, $options = null)
+    {
+        return $this->filterVar($name, $this->getQueryParams(), $filter, $options)
+            ?? $default;
+    }
+
+    /**
+     * @param string $name
+     * @param null|mixed $default
+     * @param int $filter
+     * @return mixed|null
+     */
+    public function getPost(string $name, $default = null, int $filter = FILTER_DEFAULT, $options = null)
+    {
+        return $this->filterVar($name, $this->getParsedBody(), $filter, $options)
+            ?? $default;
+    }
+
+    /**
+     * @param string $name
+     * @param null|mixed $default
+     * @param int $filter
+     * @return mixed|null
+     */
+    public function getCookie(string $name, $default = null, int $filter = FILTER_DEFAULT, $options = null)
+    {
+        return $this->filterVar($name, $this->getCookieParams(), $filter, $options)
+            ?? $default;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $array
+     * @param int $filter
+     * @return mixed|null
+     */
+    private function filterVar(string $key, $array, int $filter, $options)
+    {
+        if (is_array($array) && isset($array[$key])) {
+            $result = filter_var($array[$key], $filter, $options);
+
+            if (false !== $result) {
+                return $result;
+            }
+        }
+
+        return null;
+    }
 }
