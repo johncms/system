@@ -26,7 +26,7 @@ class Bbcode
     protected $asset;
 
     /**
-     * @var Config
+     * @var array
      */
     protected $config;
 
@@ -42,8 +42,6 @@ class Bbcode
 
     protected $tags;
 
-    protected $homeUrl;
-
     protected $codeId;
 
     protected $codeIndex;
@@ -53,10 +51,10 @@ class Bbcode
     public function __invoke(ContainerInterface $container)
     {
         $this->asset = $container->get(Assets::class);
-        $this->config = $container->get(Config::class);
+        $config = $container->get('config');
+        $this->config = $config['johncms'];
         $this->user = $container->get(User::class);
         $this->userConfig = $this->user->config;
-        $this->homeUrl = $this->config['homeurl'];
 
         $globalcnf = $container->get('config');
         $this->tags = $globalcnf['bbcode'] ?? [];
@@ -156,7 +154,7 @@ class Bbcode
 
         if (! empty($smileys)) {
             $res_sm = '';
-            $bb_smileys = '<small><a href="' . $this->homeUrl . '/help/?act=my_smilies">' . _t('Edit List', 'system') . '</a></small><br />'; // phpcs:ignore
+            $bb_smileys = '<small><a href="' . $this->config['homeurl'] . '/help/?act=my_smilies">' . _t('Edit List', 'system') . '</a></small><br />'; // phpcs:ignore
 
             foreach ($smileys as $value) {
                 $res_sm .= '<a href="javascript:tag(\':' . $value . '\', \':\'); show_hide(\'sm\');">:' . $value . ':</a> '; // phpcs:ignore
@@ -167,7 +165,7 @@ class Bbcode
 
             $bb_smileys .= $tools->smilies($res_sm, $this->user->rights >= 1 ? 1 : 0);
         } else {
-            $bb_smileys = '<small><a href="' . $this->homeUrl . '/help/?act=smilies">' . _t('Add Smilies', 'system') . '</a></small>'; // phpcs:ignore
+            $bb_smileys = '<small><a href="' . $this->config['homeurl'] . '/help/?act=smilies">' . _t('Add Smilies', 'system') . '</a></small>'; // phpcs:ignore
         }
 
         // Код
@@ -298,7 +296,7 @@ class Bbcode
      */
     protected function highlightUrl($text)
     {
-        $homeurl = $this->homeUrl;
+        $homeurl = $this->config['homeurl'];
 
         // Обработка внутренних ссылок
         $text = preg_replace_callback(
@@ -395,7 +393,7 @@ class Bbcode
             case 2:
                 $text = $short_url;
                 if (! $this->userConfig->directUrl) {
-                    $url = $this->homeUrl . '/redirect/?url=' . rawurlencode($url);
+                    $url = $this->config['homeurl'] . '/redirect/?url=' . rawurlencode($url);
                 }
                 break;
 
@@ -461,14 +459,14 @@ class Bbcode
         return preg_replace_callback(
             '~\[url=(https?://.+?|//.+?)](.+?)\[/url]~iu',
             function ($url) {
-                $home = parse_url($this->homeUrl);
+                $home = parse_url($this->config['homeurl']);
                 $tmp = parse_url($url[1]);
 
                 if ($home['host'] == $tmp['host'] || $this->userConfig->directUrl) {
                     return '<a href="' . $url[1] . '">' . $url[2] . '</a>';
                 }
 
-                return '<a href="' . $this->homeUrl . '/redirect/?url=' . urlencode(htmlspecialchars_decode($url[1])) . '">' . $url[2] . '</a>'; // phpcs:ignore
+                return '<a href="' . $this->config['homeurl'] . '/redirect/?url=' . urlencode(htmlspecialchars_decode($url[1])) . '">' . $url[2] . '</a>'; // phpcs:ignore
             },
             $var
         );

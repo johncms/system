@@ -24,10 +24,9 @@ class RenderEngineFactory
 {
     public function __invoke(ContainerInterface $container): Render
     {
-        /** @var Config $config */
-        $config = $container->get(Config::class);
+        $config = $container->get('config')['johncms'];
         $engine = new Render('phtml');
-        $engine->setTheme($config->skindef);
+        $engine->setTheme($config['skindef']);
         $engine->addFolder('system', realpath(THEMES_PATH . 'default/templates/system'));
         $engine->loadExtension($container->get(Assets::class));
         $engine->loadExtension($container->get(Avatar::class));

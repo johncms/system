@@ -46,7 +46,7 @@ class Tools
     private $userConfig;
 
     /**
-     * @var Config
+     * @var array
      */
     private $config;
 
@@ -54,7 +54,8 @@ class Tools
     {
         $this->container = $container;
         $this->assets = $container->get(Assets::class);
-        $this->config = $container->get(Config::class);
+        $config = $container->get('config');
+        $this->config = $config['johncms'] ?? [];
         $this->db = $container->get(\PDO::class);
         $this->user = $container->get(User::class);
         $this->userConfig = $this->user->config;
@@ -140,7 +141,7 @@ class Tools
      */
     public function displayDate(int $var)
     {
-        $shift = ($this->config->timeshift + $this->userConfig->timeshift) * 3600;
+        $shift = ($this->config['timeshift'] + $this->userConfig->timeshift) * 3600;
 
         if (date('Y', $var) == date('Y', time())) {
             if (date('z', $var + $shift) == date('z', time() + $shift)) {
@@ -270,12 +271,12 @@ class Tools
         ];
 
         if (array_key_exists($place, $placelist)) {
-            return str_replace('#home#', $this->config->homeurl, $placelist[$place]);
+            return str_replace('#home#', $this->config['homeurl'], $placelist[$place]);
         } elseif (array_key_exists($part[0], $placelist)) {
-            return str_replace('#home#', $this->config->homeurl, $placelist[$part[0]]);
+            return str_replace('#home#', $this->config['homeurl'], $placelist[$part[0]]);
         }
 
-        return '<a href="' . $this->config->homeurl . '/">'
+        return '<a href="' . $this->config['homeurl'] . '/">'
             . ($this->user->rights >= 6 ? '[' . ($place) . ']' : _t('Somewhere on the site', 'system'))
             . '</a>';
     }
