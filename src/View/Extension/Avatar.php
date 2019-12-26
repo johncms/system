@@ -12,14 +12,13 @@ declare(strict_types=1);
 
 namespace Johncms\System\View\Extension;
 
-use Johncms\System\Config\Config;
 use Mobicms\Render\Engine;
 use Mobicms\Render\ExtensionInterface;
 use Psr\Container\ContainerInterface;
 
 class Avatar implements ExtensionInterface
 {
-    /** @var Config */
+    /** @var array */
     private $config;
 
     /** @var Assets */
@@ -27,7 +26,7 @@ class Avatar implements ExtensionInterface
 
     public function __invoke(ContainerInterface $container): self
     {
-        $this->config = $container->get(Config::class);
+        $this->config = $container->get('config')['johncms'];
         $this->assets = $container->get(Assets::class);
         return $this;
     }
@@ -42,7 +41,7 @@ class Avatar implements ExtensionInterface
         if ($userId > 0) {
             $avatar = UPLOAD_PATH . 'users/avatar/' . $userId . '.png';
             if (file_exists($avatar)) {
-                return $this->assets->urlFromPath($avatar, ROOT_PATH, $this->config->homeurl);
+                return $this->assets->urlFromPath($avatar, ROOT_PATH, $this->config['homeurl']);
             }
         }
 

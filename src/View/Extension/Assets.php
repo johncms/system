@@ -12,19 +12,17 @@ declare(strict_types=1);
 
 namespace Johncms\System\View\Extension;
 
-use Johncms\System\Config\Config;
 use Mobicms\Render\Engine;
 use Mobicms\Render\ExtensionInterface;
 use Psr\Container\ContainerInterface;
 
 class Assets implements ExtensionInterface
 {
-    /** @var Config */
     private $config;
 
     public function __invoke(ContainerInterface $container): self
     {
-        $this->config = $container->get(Config::class);
+        $this->config = $container->get('config')['johncms'];
 
         return $this;
     }
@@ -38,9 +36,9 @@ class Assets implements ExtensionInterface
     {
         $url = ltrim($url, '/');
 
-        foreach ([$this->config->skindef, 'default'] as $skin) {
+        foreach ([$this->config['skindef'], 'default'] as $skin) {
             $file = (string) realpath(THEMES_PATH . $skin . '/assets/' . $url);
-            $resultUrl = $this->urlFromPath($file, ROOT_PATH, $this->config->homeurl);
+            $resultUrl = $this->urlFromPath($file, ROOT_PATH, $this->config['homeurl']);
 
             if (is_file($file)) {
                 return $versionStamp

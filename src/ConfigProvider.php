@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Johncms\System;
 
 use FastRoute\RouteCollector;
-use Johncms\System\{Config,
+use Johncms\System\{
     Database\PdoFactory,
     Http\Environment,
     Http\Request,
@@ -55,7 +55,6 @@ class ConfigProvider
                 Assets::class         => Assets::class,
                 Avatar::class         => Avatar::class,
                 Bbcode::class         => Bbcode::class,
-                Config\Config::class  => Config\ConfigFactory::class,
                 Environment::class    => Environment::class,
                 RouteCollector::class => RouteCollectorFactory::class,
                 PDO::class            => PdoFactory::class,

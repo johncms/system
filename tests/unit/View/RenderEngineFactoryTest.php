@@ -31,7 +31,7 @@ class RenderEngineFactoryTest extends Unit
         $translator->getLocale()->willReturn('en');
 
         $container = new ServiceManager();
-        $container->setService(Config::class, new Config(['skindef' => 'default'], Config::ARRAY_AS_PROPS));
+        $container->setService('config', ['johncms' => ['skindef' => 'default']]);
         $container->setService(Translator::class, $translator->reveal());
         $container->setService(Tools::class, $this->prophesize(Tools::class)->reveal());
         $container->setService(User::class, $this->prophesize(User::class)->reveal());
@@ -51,7 +51,7 @@ class RenderEngineFactoryTest extends Unit
     {
         $data = $engine->getData();
         $this->assertInstanceOf(ServiceManager::class, $data['container']);
-        $this->assertInstanceOf(Config::class, $data['config']);
+        $this->assertIsArray($data['config']);
         $this->assertSame('en', $data['locale']);
         $this->assertInstanceOf(Tools::class, $data['tools']);
         $this->assertInstanceOf(User::class, $data['user']);

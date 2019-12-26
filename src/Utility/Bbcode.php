@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Johncms\System\Utility;
 
-use Johncms\System\Config\Config;
 use Johncms\System\Utility\Tools;
 use Johncms\System\Users\User;
 use Johncms\System\Container\Factory;
