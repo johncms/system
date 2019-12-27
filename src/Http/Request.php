@@ -34,11 +34,11 @@ class Request extends ServerRequest
     public static function fromGlobals()
     {
         $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-        $headers = getallheaders() ?? [];
+        $headers = getallheaders();
         $uri = self::getUriFromGlobals();
         $body = new CachingStream(new LazyOpenStream('php://input', 'r+'));
         $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? str_replace('HTTP/', '', $_SERVER['SERVER_PROTOCOL']) : '1.1';
-        $serverRequest = new self($method, $uri, $headers, $body, $protocol, $_SERVER);
+        $serverRequest = new self($method, $uri, /** @scrutinizer ignore-type */ $headers, $body, $protocol, $_SERVER);
 
         return $serverRequest
             ->withCookieParams($_COOKIE)

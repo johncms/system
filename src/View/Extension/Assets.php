@@ -47,7 +47,7 @@ class Assets implements ExtensionInterface
             }
         }
 
-        throw new \InvalidArgumentException('Unable to locate the asset: ' . $resultUrl);
+        throw new \InvalidArgumentException('Unable to locate the asset: ' . $url);
     }
 
     public function urlFromPath(string $path, string $rootPath, string $baseUrl): string
