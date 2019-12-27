@@ -9,7 +9,6 @@ matrix:
     - php: 7.2
     - php: 7.3
       env:
-        - LINT=true
         - CS_CHECK=true
         - TEST_COVERAGE=true
     - php: 7.4
@@ -23,7 +22,6 @@ install:
   - stty cols 120 && composer show
 
 script:
-  - if [[ $LINT == 'true' ]]; then composer lint; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check; fi
   - if [[ $ANALYSIS == 'true' ]]; then composer psalm; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage; else composer test; fi
