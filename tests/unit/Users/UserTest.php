@@ -42,15 +42,4 @@ class UserTest extends Unit
         $instance = new User(['id' => 1, 'preg' => 0]);
         $this->assertFalse($instance->isValid());
     }
-
-    public function testOffsetSet()
-    {
-        $this->expectException(LogicException::class);
-        $instance = new User([]);
-        $instance->id = 1;
-    }
-
-//    public function testGetAvatar()
-//    {
-//    }
 }
