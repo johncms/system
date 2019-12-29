@@ -134,8 +134,8 @@ abstract class AbstractUserProperties
     /** @var string */
     public $smileys = '';
 
-    /** @var int */
-    public $ban = 0;
+    /** @var array */
+    public $ban = [];
 
     /** @var UserConfig */
     public $config;
