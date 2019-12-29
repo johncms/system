@@ -21,8 +21,8 @@
 
         <UnusedClass>
             <errorLevel type="suppress">
-                <file name="src\Users\UserClean.php"/>
-                <file name="src\Users\UserStat.php"/>
+                <file name="src/Users/UserClean.php"/>
+                <file name="src/Users/UserStat.php"/>
             </errorLevel>
         </UnusedClass>
 
@@ -37,23 +37,23 @@
 
         <PossiblyUnusedProperty>
             <errorLevel type="suppress">
-                <file name="src\Users\AbstractUserProperties.php"/>
-                <file name="src\Users\UserConfig.php"/>
+                <file name="src/Users/AbstractUserProperties.php"/>
+                <file name="src/Users/UserConfig.php"/>
             </errorLevel>
         </PossiblyUnusedProperty>
 
         <PossiblyUnusedParam>
             <errorLevel type="suppress">
-                <file name="src\Http\RequestFactory.php"/>
+                <file name="src/Http/RequestFactory.php"/>
             </errorLevel>
         </PossiblyUnusedParam>
 
         <MissingConstructor>
             <errorLevel type="suppress">
-                <file name="src\Http\Environment.php"/>
-                <file name="src\Users\UserFactory.php"/>
-                <file name="src\View\Extension\Assets.php"/>
-                <file name="src\View\Extension\Avatar.php"/>
+                <file name="src/Http/Environment.php"/>
+                <file name="src/Users/UserFactory.php"/>
+                <file name="src/View/Extension/Assets.php"/>
+                <file name="src/View/Extension/Avatar.php"/>
             </errorLevel>
         </MissingConstructor>
 
