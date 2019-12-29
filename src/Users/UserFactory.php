@@ -44,7 +44,7 @@ class UserFactory
     {
         /** @psalm-suppress PossiblyNullArgument */
         $userPassword = md5($this->request->getCookie('cups', '', FILTER_SANITIZE_STRING));
-        $userId = $this->request->getCookie('cuid', 0, FILTER_SANITIZE_NUMBER_INT);
+        $userId = (int) $this->request->getCookie('cuid', 0, FILTER_SANITIZE_NUMBER_INT);
 
         if ($userId && $userPassword) {
             return $this->authorization($userId, $userPassword);
@@ -53,7 +53,7 @@ class UserFactory
         return [];
     }
 
-    private function authorization($userId, $userPassword): array
+    private function authorization(int $userId, string $userPassword): array
     {
         $req = $this->db->query('SELECT * FROM `users` WHERE `id` = ' . $userId);
 
