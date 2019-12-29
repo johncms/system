@@ -60,18 +60,11 @@ class Environment
         }
 
         $httpString = $this->request->getServer('HTTP_X_FORWARDED_FOR', '', FILTER_SANITIZE_STRING);
-
-        if (! empty($httpString) && preg_match_all('#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s', $httpString, $vars)) {
-            foreach ($vars[0] as $var) {
-                $ipViaProxy = ip2long($var);
-
-                if ($ipViaProxy && $ipViaProxy != $this->getIp() && ! preg_match('#^(10|172\.16|192\.168)\.#', $var)) {
-                    return $this->ipViaProxy = (int) sprintf('%u', $ipViaProxy);
-                }
-            }
-        }
-
-        return $this->ipViaProxy = 0;
+        return $this->ipViaProxy = (
+        ! empty($httpString) && preg_match_all('#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s', $httpString, $vars)
+            ? $this->extractIpFromString($vars)
+            : 0
+        );
     }
 
     public function getUserAgent(): string
@@ -92,6 +85,19 @@ class Environment
     public function getIpLog(): array
     {
         return $this->ipCount;
+    }
+
+    private function extractIpFromString(array $vars): int
+    {
+        foreach ($vars[0] as $var) {
+            $ipViaProxy = ip2long($var);
+
+            if ($ipViaProxy && $ipViaProxy != $this->getIp() && ! preg_match('#^(10|172\.16|192\.168)\.#', $var)) {
+                return (int) sprintf('%u', $ipViaProxy);
+            }
+        }
+
+        return 0;
     }
 
     private function ipLog(): void
