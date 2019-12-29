@@ -26,6 +26,9 @@ class UserConfig
     /** @var int Размер списков */
     public $kmess = 30;
 
+    /** @var string Выбранный пользователем язык */
+    public $lng = '';
+
     /** @var string Тема оформления */
     public $skin = '';
 

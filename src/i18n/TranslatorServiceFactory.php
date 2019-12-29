@@ -14,6 +14,7 @@ namespace Johncms\System\i18n;
 
 use Johncms\System\Http\Request;
 use Johncms\System\Users\User;
+use Johncms\System\Users\UserConfig;
 use Psr\Container\ContainerInterface;
 use Zend\I18n\Translator\Translator;
 
@@ -24,7 +25,7 @@ class TranslatorServiceFactory
         /** @var Request $request */
         $request = $container->get(Request::class);
 
-        /** @var User $userConfig */
+        /** @var UserConfig $userConfig */
         $userConfig = $container->get(User::class)->config;
 
         // Configure the translator
@@ -34,7 +35,7 @@ class TranslatorServiceFactory
         $translator = Translator::factory($trConfig);
         $translator->setLocale(
             $this->determineLocale(
-                $userConfig->lng ?? '',
+                $userConfig->lng,
                 $config['johncms']['lng'] ?? 'en',
                 $config['johncms']['lng_list'] ?? [],
                 $request->getPost('setlng')
