@@ -87,6 +87,19 @@ class Request extends ServerRequest
     }
 
     /**
+     * @param string $name
+     * @param null|mixed $default
+     * @param int $filter
+     * @param mixed $options
+     * @return mixed|null
+     */
+    public function getServer(string $name, $default = null, int $filter = FILTER_DEFAULT, $options = null)
+    {
+        return $this->filterVar($name, $this->getServerParams(), $filter, $options)
+            ?? $default;
+    }
+
+    /**
      * @param string $key
      * @param mixed $array
      * @param int $filter
