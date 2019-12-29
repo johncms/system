@@ -34,7 +34,7 @@ class TranslatorServiceFactory
         $translator = Translator::factory($trConfig);
         $translator->setLocale(
             $this->determineLocale(
-                $userConfig['lng'] ?? '',
+                $userConfig->lng ?? '',
                 $config['johncms']['lng'] ?? 'en',
                 $config['johncms']['lng_list'] ?? [],
                 $request->getPost('setlng')

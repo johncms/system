@@ -14,7 +14,6 @@ namespace Tests\Unit\Users;
 
 use Codeception\Test\Unit;
 use Johncms\System\Users\User;
-use LogicException;
 
 class UserTest extends Unit
 {

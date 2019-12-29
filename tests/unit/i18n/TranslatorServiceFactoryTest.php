@@ -106,7 +106,7 @@ class TranslatorServiceFactoryTest extends Unit
 
         $container->setService(
             User::class,
-            new User(['set_user' => isset($options['user']) ? serialize(['lng' => $options['user']]) : []])
+            new User(['set_user' => isset($options['user']) ? serialize(['lng' => $options['user']]) : ''])
         );
 
         return $container;

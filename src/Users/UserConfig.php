@@ -12,37 +12,42 @@ declare(strict_types=1);
 
 namespace Johncms\System\Users;
 
-use Zend\Stdlib\ArrayObject;
-
-/**
- * @property        $directUrl
- * @property        $fieldHeight
- * @property        $fieldWidth
- * @property int    $kmess
- * @property string $skin
- * @property        $timeshift
- * @property        $youtube
- */
-class UserConfig extends ArrayObject
+class UserConfig
 {
-    public function __construct(User $user)
+    /** @var int Разрешить прямые Внешние ссылки */
+    public $directUrl = 0;
+
+    /** @var int Высота текстового поля ввода */
+    public $fieldHeight = 3;
+
+    /** @var int Ширина текстового поля ввода */
+    public $fieldWidth = 40;
+
+    /** @var int Размер списков */
+    public $kmess = 30;
+
+    /** @var string Тема оформления */
+    public $skin = '';
+
+    /** @var int Временной сдвиг */
+    public $timeshift = 0;
+
+    /** @var int Показать Youtube player */
+    public $youtube = 1;
+
+    public function __construct(string $serializedArray = '')
     {
-        $input = empty($user->set_user)
-            ? $this->getDefaults()
-            : unserialize($user->set_user, ['allowed_classes' => false]);
-        parent::__construct($input, parent::ARRAY_AS_PROPS);
+        if ($serializedArray !== '') {
+            $this->assignValues(unserialize($serializedArray, ['allowed_classes' => false]));
+        }
     }
 
-    private function getDefaults()
+    private function assignValues($data): void
     {
-        return [
-            'directUrl'   => 0,  // Внешние ссылки
-            'fieldHeight' => 3,  // Высота текстового поля ввода
-            'fieldWidth'  => 40, // Ширина текстового поля ввода
-            'kmess'       => 20, // Число сообщений на страницу
-            'skin'        => '', // Тема оформления
-            'timeshift'   => 0,  // Временной сдвиг
-            'youtube'     => 1,  // Покалывать ли Youtube player
-        ];
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $this->$key = $value;
+            }
+        }
     }
 }

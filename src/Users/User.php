@@ -20,7 +20,7 @@ class User extends AbstractUserProperties
             $this->$key = $value;
         }
 
-        $this->config = new UserConfig($this);
+        $this->config = new UserConfig($this->set_user);
     }
 
     public function isValid(): bool
