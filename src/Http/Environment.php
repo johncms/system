@@ -17,12 +17,16 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Environment
 {
+    /** @var null|int */
     private $ip;
 
+    /** @var null|int */
     private $ipViaProxy;
 
+    /** @var null|string */
     private $userAgent;
 
+    /** @var array */
     private $ipCount = [];
 
     /** @var ContainerInterface */
@@ -45,8 +49,13 @@ class Environment
     {
         if (null === $this->ip) {
             $ip = filter_var($this->server['REMOTE_ADDR'], FILTER_VALIDATE_IP);
-            $ip = ip2long($ip);
-            $this->ip = sprintf('%u', $ip);
+
+            if (false === $ip) {
+                $this->ip = 0;
+            } else {
+                $ip = ip2long($ip);
+                $this->ip = (int) sprintf('%u', $ip);
+            }
         }
 
         return (int) $this->ip;
@@ -100,7 +109,7 @@ class Environment
         return $this->ipCount;
     }
 
-    private function ipLog($ip): void
+    private function ipLog(int $ip): void
     {
         $file = CACHE_PATH . 'ip-requests-list.cache';
         $tmp = [];

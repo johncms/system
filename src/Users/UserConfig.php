@@ -42,6 +42,9 @@ class UserConfig
         }
     }
 
+    /**
+     * @param mixed $data
+     */
     private function assignValues($data): void
     {
         if (is_array($data)) {

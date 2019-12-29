@@ -18,6 +18,7 @@ use Psr\Container\ContainerInterface;
 
 class Assets implements ExtensionInterface
 {
+    /** @var array */
     private $config;
 
     public function __invoke(ContainerInterface $container): self

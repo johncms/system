@@ -148,7 +148,7 @@ abstract class AbstractUserProperties
      * @deprecated
      * @var string
      */
-    public $name_lat;
+    public $name_lat = '';
 
     /**
      * @deprecated

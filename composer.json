@@ -46,6 +46,7 @@
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "psalm": "psalm",
+        "psalm-fix": "psalm --alter --issues=MissingReturnType,MissingParamType",
         "test": "codecept run",
         "test-coverage": "codecept run --coverage-xml"
     }

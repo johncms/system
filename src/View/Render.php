@@ -17,7 +17,8 @@ use Throwable;
 
 class Render extends Engine
 {
-    private $theme;
+    /** @var string */
+    private $theme = 'default';
 
     public function setTheme(string $theme): void
     {

@@ -1,33 +1,66 @@
 <?xml version="1.0"?>
 <psalm
-    totallyTyped="false"
-    findUnusedCode="true"
-    resolveFromConfigFile="true"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+        totallyTyped="false"
+        findUnusedCode="true"
+        resolveFromConfigFile="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
-        <directory name="src" />
+        <directory name="src"/>
         <ignoreFiles>
-            <directory name="vendor" />
+            <directory name="src/Utility"/>
+            <directory name="tests"/>
+            <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
 
     <issueHandlers>
-        <LessSpecificReturnType errorLevel="info" />
+        <LessSpecificReturnType errorLevel="info"/>
 
         <UnusedClass>
             <errorLevel type="suppress">
-                <referencedClass name="Johncms\System\Container\Factory"/>
-                <referencedClass name="Johncms\System\Users\UserStat"/>
+                <file name="src\Users\UserClean.php"/>
+                <file name="src\Users\UserStat.php"/>
             </errorLevel>
         </UnusedClass>
 
         <PossiblyUnusedMethod>
             <errorLevel type="suppress">
-                <referencedMethod name="Mobicms\Captcha\Options::setImageSize"/>
+                <referencedMethod name="Johncms\System\Http\Environment::getIpLog"/>
+                <referencedMethod name="Johncms\System\Http\Request::getQuery"/>
+                <referencedMethod name="Johncms\System\Http\Request::getCookie"/>
+                <referencedMethod name="Johncms\System\Users\User::isValid"/>
             </errorLevel>
         </PossiblyUnusedMethod>
+
+        <PossiblyUnusedProperty>
+            <errorLevel type="suppress">
+                <file name="src\Users\AbstractUserProperties.php"/>
+                <file name="src\Users\UserConfig.php"/>
+            </errorLevel>
+        </PossiblyUnusedProperty>
+
+        <PossiblyUnusedParam>
+            <errorLevel type="suppress">
+                <file name="src\Http\RequestFactory.php"/>
+            </errorLevel>
+        </PossiblyUnusedParam>
+
+        <MissingConstructor>
+            <errorLevel type="suppress">
+                <file name="src\Http\Environment.php"/>
+                <file name="src\Users\UserFactory.php"/>
+                <file name="src\View\Extension\Assets.php"/>
+                <file name="src\View\Extension\Avatar.php"/>
+            </errorLevel>
+        </MissingConstructor>
+
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <referencedProperty name="GuzzleHttp\Psr7\MessageTrait::$stream"/>
+            </errorLevel>
+        </PropertyNotSetInConstructor>
     </issueHandlers>
 </psalm>

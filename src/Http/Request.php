@@ -51,6 +51,7 @@ class Request extends ServerRequest
      * @param string $name
      * @param null|mixed $default
      * @param int $filter
+     * @param mixed $options
      * @return mixed|null
      */
     public function getQuery(string $name, $default = null, int $filter = FILTER_DEFAULT, $options = null)
@@ -63,6 +64,7 @@ class Request extends ServerRequest
      * @param string $name
      * @param null|mixed $default
      * @param int $filter
+     * @param mixed $options
      * @return mixed|null
      */
     public function getPost(string $name, $default = null, int $filter = FILTER_DEFAULT, $options = null)
@@ -75,6 +77,7 @@ class Request extends ServerRequest
      * @param string $name
      * @param null|mixed $default
      * @param int $filter
+     * @param mixed $options
      * @return mixed|null
      */
     public function getCookie(string $name, $default = null, int $filter = FILTER_DEFAULT, $options = null)
@@ -87,6 +90,7 @@ class Request extends ServerRequest
      * @param string $key
      * @param mixed $array
      * @param int $filter
+     * @param mixed $options
      * @return mixed|null
      */
     private function filterVar(string $key, $array, int $filter, $options)

@@ -27,31 +27,32 @@ class UserClean
         $this->db = Factory::getContainer()->get(PDO::class);
     }
 
-    public function removeUser($clean_id)
+    public function removeUser(int $cleanId): void
     {
         // Удаляем историю нарушений
-        $this->db->exec("DELETE FROM `cms_ban_users` WHERE `user_id` = '" . $clean_id . "'");
+        $this->db->exec("DELETE FROM `cms_ban_users` WHERE `user_id` = '" . $cleanId . "'");
         // Удаляем историю IP
-        $this->db->exec("DELETE FROM `cms_users_iphistory` WHERE `user_id` = '" . $clean_id . "'");
+        $this->db->exec("DELETE FROM `cms_users_iphistory` WHERE `user_id` = '" . $cleanId . "'");
         // Удаляем пользователя
-        $this->db->exec("DELETE FROM `users` WHERE `id` = '" . $clean_id . "'");
+        $this->db->exec("DELETE FROM `users` WHERE `id` = '" . $cleanId . "'");
     }
 
     /**
      * Удаляем пользовательские альбомы
      *
-     * @param $clean_id
+     * @param $cleanId
+     * @return void
      */
-    public function removeAlbum($clean_id)
+    public function removeAlbum(int $cleanId): void
     {
         // Удаляем папку с файлами картинок
-        $dir = UPLOAD_PATH . 'users/album/' . $clean_id;
+        $dir = UPLOAD_PATH . 'users/album/' . $cleanId;
         if (is_dir($dir)) {
             $this->removeDir($dir);
         }
 
         // Чистим таблицы
-        $req = $this->db->query("SELECT `id` FROM `cms_album_files` WHERE `user_id` = '" . $clean_id . "'");
+        $req = $this->db->query("SELECT `id` FROM `cms_album_files` WHERE `user_id` = '" . $cleanId . "'");
         if ($req->rowCount()) {
             while ($res = $req->fetch()) {
                 $this->db->exec("DELETE FROM `cms_album_comments` WHERE `sub_id` = '" . $res['id'] . "'");
@@ -61,23 +62,24 @@ class UserClean
             }
         }
 
-        $this->db->exec("DELETE FROM `cms_album_cat` WHERE `user_id` = '" . $clean_id . "'");
-        $this->db->exec("DELETE FROM `cms_album_files` WHERE `user_id` = '" . $clean_id . "'");
-        $this->db->exec("DELETE FROM `cms_album_downloads` WHERE `user_id` = '" . $clean_id . "'");
-        $this->db->exec("DELETE FROM `cms_album_views` WHERE `user_id` = '" . $clean_id . "'");
-        $this->db->exec("DELETE FROM `cms_album_votes` WHERE `user_id` = '" . $clean_id . "'");
+        $this->db->exec("DELETE FROM `cms_album_cat` WHERE `user_id` = '" . $cleanId . "'");
+        $this->db->exec("DELETE FROM `cms_album_files` WHERE `user_id` = '" . $cleanId . "'");
+        $this->db->exec("DELETE FROM `cms_album_downloads` WHERE `user_id` = '" . $cleanId . "'");
+        $this->db->exec("DELETE FROM `cms_album_views` WHERE `user_id` = '" . $cleanId . "'");
+        $this->db->exec("DELETE FROM `cms_album_votes` WHERE `user_id` = '" . $cleanId . "'");
     }
 
     /**
      * Удаляем почту и контакты
      *
-     * @param $clean_id
+     * @param $cleanId
+     * @return void
      */
-    public function removeMail($clean_id)
+    public function removeMail(int $cleanId): void
     {
         // Удаляем файлы юзера из почты
         $req = $this->db->query(
-            "SELECT * FROM `cms_mail` WHERE (`user_id` OR `from_id` = '" . $clean_id . "') AND `file_name` != ''"
+            "SELECT * FROM `cms_mail` WHERE (`user_id` OR `from_id` = '" . $cleanId . "') AND `file_name` != ''"
         );
 
         if ($req->rowCount()) {
@@ -89,70 +91,73 @@ class UserClean
             }
         }
 
-        $this->db->exec("DELETE FROM `cms_mail` WHERE `user_id` = '" . $clean_id . "'");
-        $this->db->exec("DELETE FROM `cms_mail` WHERE `from_id` = '" . $clean_id . "'");
-        $this->db->exec("DELETE FROM `cms_contact` WHERE `user_id` = '" . $clean_id . "'");
-        $this->db->exec("DELETE FROM `cms_contact` WHERE `from_id` = '" . $clean_id . "'");
+        $this->db->exec("DELETE FROM `cms_mail` WHERE `user_id` = '" . $cleanId . "'");
+        $this->db->exec("DELETE FROM `cms_mail` WHERE `from_id` = '" . $cleanId . "'");
+        $this->db->exec("DELETE FROM `cms_contact` WHERE `user_id` = '" . $cleanId . "'");
+        $this->db->exec("DELETE FROM `cms_contact` WHERE `from_id` = '" . $cleanId . "'");
     }
 
     /**
      * Удаляем Карму
      *
-     * @param $clean_id
+     * @param $cleanId
+     * @return void
      */
-    public function removeKarma($clean_id)
+    public function removeKarma(int $cleanId): void
     {
-        $this->db->exec("DELETE FROM `karma_users` WHERE `karma_user` = '" . $clean_id . "'");
+        $this->db->exec("DELETE FROM `karma_users` WHERE `karma_user` = '" . $cleanId . "'");
     }
 
-    public function cleanForum($clean_id)
+    public function cleanForum(int $cleanId): void
     {
         // Скрываем темы на форуме
         $this->db->exec(
-            "UPDATE `forum_topic` SET `deleted` = '1', `deleted_by` = 'SYSTEM' WHERE `user_id` = '" . $clean_id . "'"
+            "UPDATE `forum_topic` SET `deleted` = '1', `deleted_by` = 'SYSTEM' WHERE `user_id` = '" . $cleanId . "'"
         );
         // Скрываем посты на форуме
         $this->db->exec(
-            "UPDATE `forum_messages` SET `deleted` = '1', `deleted_by` = 'SYSTEM' WHERE `user_id` = '" . $clean_id . "'"
+            "UPDATE `forum_messages` SET `deleted` = '1', `deleted_by` = 'SYSTEM' WHERE `user_id` = '" . $cleanId . "'"
         );
         // Удаляем метки прочтения на Форуме
-        $this->db->exec("DELETE FROM `cms_forum_rdm` WHERE `user_id` = '" . $clean_id . "'");
+        $this->db->exec("DELETE FROM `cms_forum_rdm` WHERE `user_id` = '" . $cleanId . "'");
     }
 
     /**
      * Удаляем личную гостевую
      *
-     * @param $clean_id
+     * @param $cleanId
+     * @return void
      */
-    public function removeGuestbook($clean_id)
+    public function removeGuestbook(int $cleanId): void
     {
-        $this->db->exec("DELETE FROM `cms_users_guestbook` WHERE `sub_id` = '" . $clean_id . "'");
+        $this->db->exec("DELETE FROM `cms_users_guestbook` WHERE `sub_id` = '" . $cleanId . "'");
     }
 
     /**
      * Удаляем все комментарии пользователя
      *
-     * @param $clean_id
+     * @param $cleanId
+     * @return void
      */
-    public function cleanComments($clean_id)
+    public function cleanComments(int $cleanId): void
     {
-        $req = $this->db->query('SELECT `name` FROM `users` WHERE `id` = ' . $clean_id);
+        $req = $this->db->query('SELECT `name` FROM `users` WHERE `id` = ' . $cleanId);
 
         if ($req->rowCount()) {
             // Удаляем из Библиотеки
-            $this->db->exec("DELETE FROM `cms_library_comments` WHERE `user_id` = '" . $clean_id . "'");
+            $this->db->exec("DELETE FROM `cms_library_comments` WHERE `user_id` = '" . $cleanId . "'");
             // Удаляем из Загрузок
-            $this->db->exec("DELETE FROM `download__comments` WHERE `user_id` = '" . $clean_id . "'");
+            $this->db->exec("DELETE FROM `download__comments` WHERE `user_id` = '" . $cleanId . "'");
             // Удаляем комментарии из личных гостевых
-            $this->db->exec("DELETE FROM `cms_users_guestbook` WHERE `user_id` = '" . $clean_id . "'");
+            $this->db->exec("DELETE FROM `cms_users_guestbook` WHERE `user_id` = '" . $cleanId . "'");
             // Удаляем комментарии из личных фотоальбомов
-            $this->db->exec("DELETE FROM `cms_album_comments` WHERE `user_id` = '" . $clean_id . "'");
+            $this->db->exec("DELETE FROM `cms_album_comments` WHERE `user_id` = '" . $cleanId . "'");
             // Удаляем посты из гостевой
-            $this->db->exec("DELETE FROM `guest` WHERE `user_id` = '" . $clean_id . "'");
+            $this->db->exec("DELETE FROM `guest` WHERE `user_id` = '" . $cleanId . "'");
         }
     }
 
-    private function removeDir(string $dir)
+    private function removeDir(string $dir): void
     {
         if ($objs = glob($dir . '/*')) {
             foreach ($objs as $obj) {

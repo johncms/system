@@ -27,6 +27,7 @@ class UserFactory
      */
     private $env;
 
+    /** @var array|mixed */
     private $userData;
 
     public function __invoke(ContainerInterface $container)
@@ -39,7 +40,7 @@ class UserFactory
     }
 
     /**
-     * Авторизация пользователя и получение его данных из базы
+     * @return array|mixed
      */
     protected function authorize()
     {
@@ -128,8 +129,9 @@ class UserFactory
      * Фиксация истории IP адресов пользователя
      *
      * @param array $userData
+     * @return void
      */
-    protected function ipHistory(array $userData)
+    protected function ipHistory(array $userData): void
     {
         // Удаляем из истории текущий адрес (если есть)
         $this->db->exec(
@@ -218,8 +220,10 @@ class UserFactory
 
     /**
      * Уничтожаем данные авторизации юзера
+     *
+     * @return void
      */
-    protected function userUnset()
+    protected function userUnset(): void
     {
         unset($_SESSION['uid'], $_SESSION['ups']);
 
