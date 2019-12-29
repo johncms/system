@@ -16,6 +16,7 @@ use Codeception\Test\Unit;
 use GuzzleHttp\Psr7\ServerRequest;
 use GuzzleHttp\Psr7\Uri;
 use Johncms\System\Http\Environment;
+use Johncms\System\Http\Request;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\ServiceManager\ServiceManager;
 
@@ -25,7 +26,7 @@ class EnvironmentTest extends Unit
 
     public function setUp(): void
     {
-        $this->request = new ServerRequest(
+        $this->request = new Request(
             'GET',
             new Uri(''),
             [],
@@ -42,7 +43,7 @@ class EnvironmentTest extends Unit
     public function testCanCreateInstance(): Environment
     {
         $container = new ServiceManager();
-        $container->setService(ServerRequestInterface::class, $this->request);
+        $container->setService(Request::class, $this->request);
         $instance = (new Environment())($container);
         $this->assertInstanceOf(Environment::class, $instance);
         return $instance;
@@ -63,13 +64,13 @@ class EnvironmentTest extends Unit
      */
     public function testGetIpViaProxy(Environment $environment): void
     {
-        $this->assertSame(long2ip($environment->getIpViaProxy()), '92.63.107.114');
+        $this->assertSame('92.63.107.114', long2ip($environment->getIpViaProxy()));
         $environment->getIpViaProxy(); // Check that it is not re-parse
     }
 
     public function testGetIpViaProxyIgnorePrivateNetwork(): void
     {
-        $request = new ServerRequest(
+        $request = new Request(
             'GET',
             new Uri(''),
             [],
@@ -81,7 +82,7 @@ class EnvironmentTest extends Unit
             ]
         );
         $container = new ServiceManager();
-        $container->setService(ServerRequestInterface::class, $request);
+        $container->setService(Request::class, $request);
         $environment = (new Environment())($container);
         $this->assertSame($environment->getIpViaProxy(), 0);
     }
@@ -92,15 +93,15 @@ class EnvironmentTest extends Unit
      */
     public function testGetUserAgent(Environment $environment)
     {
-        $this->assertSame($environment->getUserAgent(), 'Test-Browser');
+        $this->assertSame('Test-Browser', $environment->getUserAgent());
         $environment->getUserAgent(); // Check that it is not re-parse
     }
 
     public function testUnrecognizedUserAgent(): void
     {
-        $request = new ServerRequest('GET', new Uri(''), [], null, '1.1', ['REMOTE_ADDR' => '127.0.0.1']);
+        $request = new Request('GET', new Uri(''), [], null, '1.1', ['REMOTE_ADDR' => '127.0.0.1']);
         $container = new ServiceManager();
-        $container->setService(ServerRequestInterface::class, $request);
+        $container->setService(Request::class, $request);
         $environment = (new Environment())($container);
         $this->assertSame($environment->getUserAgent(), 'Not Recognised');
     }
@@ -125,9 +126,9 @@ class EnvironmentTest extends Unit
         }
 
         copy($example, $file);
-        $request = new ServerRequest('GET', new Uri(''), [], null, '1.1', ['REMOTE_ADDR' => '127.0.0.1']);
+        $request = new Request('GET', new Uri(''), [], null, '1.1', ['REMOTE_ADDR' => '127.0.0.1']);
         $container = new ServiceManager();
-        $container->setService(ServerRequestInterface::class, $request);
+        $container->setService(Request::class, $request);
         (new Environment())($container);
         $this->assertFileExists($file);
     }
@@ -140,9 +141,9 @@ class EnvironmentTest extends Unit
             unlink($file);
         }
 
-        $request = new ServerRequest('GET', new Uri(''), [], null, '1.1', ['REMOTE_ADDR' => '127.0.0.1']);
+        $request = new Request('GET', new Uri(''), [], null, '1.1', ['REMOTE_ADDR' => '127.0.0.1']);
         $container = new ServiceManager();
-        $container->setService(ServerRequestInterface::class, $request);
+        $container->setService(Request::class, $request);
         (new Environment())($container);
         $this->assertFileExists($file);
     }

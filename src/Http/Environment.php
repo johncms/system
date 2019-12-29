@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Johncms\System\Http;
 
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 class Environment
 {
@@ -32,30 +31,23 @@ class Environment
     /** @var ContainerInterface */
     private $container;
 
-    /** @var array */
-    private $server;
+    /** @var Request */
+    private $request;
 
     public function __invoke(ContainerInterface $container)
     {
         $this->container = $container;
-        $request = $container->get(ServerRequestInterface::class);
-        $this->server = $request->getServerParams();
-        $this->ipLog($this->getIp());
-
+        $this->request = $container->get(Request::class);
+        $this->ipLog();
         return $this;
     }
 
     public function getIp(): int
     {
         if (null === $this->ip) {
-            $ip = filter_var($this->server['REMOTE_ADDR'], FILTER_VALIDATE_IP);
-
-            if (false === $ip) {
-                $this->ip = 0;
-            } else {
-                $ip = ip2long($ip);
-                $this->ip = (int) sprintf('%u', $ip);
-            }
+            /** @psalm-suppress PossiblyNullArgument */
+            $ip = ip2long($this->request->getServer('REMOTE_ADDR', 0, FILTER_VALIDATE_IP));
+            $this->ip = (int) sprintf('%u', $ip);
         }
 
         return (int) $this->ip;
@@ -67,14 +59,9 @@ class Environment
             return $this->ipViaProxy;
         }
 
-        if (
-            isset($this->server['HTTP_X_FORWARDED_FOR'])
-            && preg_match_all(
-                '#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s',
-                filter_var($this->server['HTTP_X_FORWARDED_FOR'], FILTER_SANITIZE_STRING),
-                $vars
-            )
-        ) {
+        $httpString = $this->request->getServer('HTTP_X_FORWARDED_FOR', '', FILTER_SANITIZE_STRING);
+
+        if (! empty($httpString) && preg_match_all('#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s', $httpString, $vars)) {
             foreach ($vars[0] as $var) {
                 $ipViaProxy = ip2long($var);
 
@@ -89,19 +76,17 @@ class Environment
 
     public function getUserAgent(): string
     {
-        if ($this->userAgent !== null) {
-            return $this->userAgent;
-        }
-
-        if (isset($this->server['HTTP_USER_AGENT'])) {
-            return $this->userAgent = mb_substr(
-                filter_var($this->server['HTTP_USER_AGENT'], FILTER_SANITIZE_SPECIAL_CHARS),
-                0,
-                150
+        if ($this->userAgent === null) {
+            $userAgent = $this->request->getServer(
+                'HTTP_USER_AGENT',
+                'Not Recognised',
+                FILTER_SANITIZE_SPECIAL_CHARS
             );
+            /** @psalm-suppress PossiblyNullArgument */
+            $this->userAgent = mb_substr($userAgent, 0, 150);
         }
 
-        return $this->userAgent = 'Not Recognised';
+        return $this->userAgent;
     }
 
     public function getIpLog(): array
@@ -109,24 +94,17 @@ class Environment
         return $this->ipCount;
     }
 
-    private function ipLog(int $ip): void
+    private function ipLog(): void
     {
         $file = CACHE_PATH . 'ip-requests-list.cache';
+        $in = $this->openIpCache($file);
         $tmp = [];
 
-        if (! file_exists($file)) {
-            $in = fopen($file, 'w+');
-        } else {
-            $in = fopen($file, 'r+');
-        }
-
         if (false !== $in && flock($in, LOCK_EX)) {
-            $now = time();
-
             while ($block = fread($in, 8)) {
                 $arr = unpack('Lip/Ltime', $block);
 
-                if (($now - $arr['time']) > 60) {
+                if ((time() - $arr['time']) > 60) {
                     continue;
                 }
 
@@ -134,15 +112,33 @@ class Environment
                 $this->ipCount[] = $arr['ip'];
             }
 
-            fseek($in, 0);
-            ftruncate($in, 0);
-
-            foreach ($tmp as $iValue) {
-                fwrite($in, pack('LL', $iValue['ip'], $iValue['time']));
-            }
-
-            fwrite($in, pack('LL', $ip, $now));
-            fclose($in);
+            $this->writeIpCache($in, $tmp);
         }
+    }
+
+    /**
+     * @param string $file
+     * @return false|resource
+     */
+    private function openIpCache(string $file)
+    {
+        return fopen($file, (file_exists($file) ? 'r+' : 'w+'));
+    }
+
+    /**
+     * @param resource $resource
+     * @param array $array
+     */
+    private function writeIpCache($resource, array $array): void
+    {
+        fseek($resource, 0);
+        ftruncate($resource, 0);
+
+        foreach ($array as $iValue) {
+            fwrite($resource, pack('LL', $iValue['ip'], $iValue['time']));
+        }
+
+        fwrite($resource, pack('LL', $this->getIp(), time()));
+        fclose($resource);
     }
 }
