@@ -41,6 +41,7 @@
     "scripts": {
         "check": [
             "@cs-check",
+            "@psalm",
             "@test"
         ],
         "cs-check": "phpcs",
