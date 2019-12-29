@@ -47,33 +47,44 @@ class UserFactory
         $userId = $this->request->getCookie('cuid', 0, FILTER_SANITIZE_NUMBER_INT);
 
         if ($userId && $userPassword) {
-            $req = $this->db->query('SELECT * FROM `users` WHERE `id` = ' . $userId);
-
-            if ($req->rowCount()) {
-                $userData = $req->fetch();
-                $permit = $userData['failed_login'] < 3
-                    || ($userData['failed_login'] > 2
-                        && $userData['ip'] == $this->env->getIp()
-                        && $userData['browser'] == $this->env->getUserAgent());
-
-                if ($permit && $userPassword === $userData['password']) {
-                    $this->banCheck($userData); // Проверяем на бан
-                    $this->ipHistory($userData); // Фиксируем историю IP
-                    return $userData;
-                }
-                // Если авторизация не прошла
-                $this->db->exec(
-                    "UPDATE `users` SET `failed_login` = '" . ($userData['failed_login'] + 1) .
-                    "' WHERE `id` = " . $userData['id']
-                );
-                $this->userUnset();
-            } else {
-                // Если пользователь не существует
-                $this->userUnset();
-            }
+            return $this->authorization($userId, $userPassword);
         }
 
         return [];
+    }
+
+    private function authorization($userId, $userPassword): array
+    {
+        $req = $this->db->query('SELECT * FROM `users` WHERE `id` = ' . $userId);
+
+        if ($req->rowCount()) {
+            $userData = $req->fetch();
+
+            if ($this->checkPermit($userData) && $userPassword === $userData['password']) {
+                $this->banCheck($userData); // Проверяем на бан
+                $this->ipHistory($userData); // Фиксируем историю IP
+                return $userData;
+            }
+            // Если авторизация не прошла
+            $this->db->exec(
+                "UPDATE `users` SET `failed_login` = '" . ($userData['failed_login'] + 1) .
+                "' WHERE `id` = " . $userData['id']
+            );
+            $this->userUnset();
+        } else {
+            // Если пользователь не существует
+            $this->userUnset();
+        }
+
+        return [];
+    }
+
+    private function checkPermit(array $userData): bool
+    {
+        return $userData['failed_login'] < 3
+            || ($userData['failed_login'] > 2
+                && $userData['ip'] == $this->env->getIp()
+                && $userData['browser'] == $this->env->getUserAgent());
     }
 
     protected function banCheck(array &$userData): void
