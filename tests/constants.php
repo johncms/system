@@ -14,11 +14,10 @@ defined('DEBUG') || define('DEBUG', true);
 
 defined('_IN_JOHNCMS') || define('_IN_JOHNCMS', true);
 defined('DS') || define('DS', DIRECTORY_SEPARATOR);
-defined('ROOT_PATH') || define('ROOT_PATH', __DIR__ . DS);
-defined('ASSETS_PATH') || define('ASSETS_PATH', __DIR__ . DS);
-defined('CONFIG_PATH') || define('CONFIG_PATH', __DIR__ . '/_data/config/');
-defined('DATA_PATH') || define('DATA_PATH', __DIR__ . DS);
-defined('UPLOAD_PATH') || define('UPLOAD_PATH', __DIR__ . '/_data/upload/');
-defined('CACHE_PATH') || define('CACHE_PATH', __DIR__ . '/_data/cache/');
-defined('LOG_PATH') || define('LOG_PATH', __DIR__ . DS);
-defined('THEMES_PATH') || define('THEMES_PATH', __DIR__ . '/_data/themes/');
+defined('ROOT_PATH') || define('ROOT_PATH', __DIR__ . DS . 'filesystem' . DS);
+defined('CONFIG_PATH') || define('CONFIG_PATH', ROOT_PATH . 'config' . DS);
+defined('DATA_PATH') || define('DATA_PATH', ROOT_PATH . 'data' . DS);
+defined('UPLOAD_PATH') || define('UPLOAD_PATH', ROOT_PATH . 'upload' . DS);
+defined('CACHE_PATH') || define('CACHE_PATH', DATA_PATH . 'cache' . DS);
+defined('LOG_PATH') || define('LOG_PATH', DATA_PATH . 'logs' . DS);
+defined('THEMES_PATH') || define('THEMES_PATH', ROOT_PATH . 'themes' . DS);

@@ -14,11 +14,15 @@ matrix:
     - php: 7.3
     - php: 7.4
       env:
+        - ANALYSIS=true
         - CS_CHECK=true
         - TEST_COVERAGE=true
-        - ANALYSIS=true
+
+addons:
+  mariadb: '10.4'
 
 before_install:
+  - sudo mysql -e "SET Password=PASSWORD('password')"
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0; fi
 
 install:
@@ -33,7 +37,7 @@ script:
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then
     wget https://scrutinizer-ci.com/ocular.phar;
-    php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml;
+    php ocular.phar code-coverage:upload --format=php-clover clover.xml;
     fi
 
 notifications:
