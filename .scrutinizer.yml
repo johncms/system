@@ -6,11 +6,8 @@ build:
           - php-scrutinizer-run
 
 filter:
-  excluded_paths:
-    - tests/unit/*
-    - tests/_support/*
-    - tests/_data/*
   dependency_paths:
+    - tests/*
     - src/Utility/
 
 tools:
