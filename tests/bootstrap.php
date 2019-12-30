@@ -22,3 +22,8 @@ session_set_save_handler(
     [$handler, 'gc']
 );
 session_start();
+
+function _t(string $string)
+{
+    return $string;
+}

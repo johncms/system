@@ -58,7 +58,7 @@ class Bbcode
         $globalcnf = $container->get('config');
         $this->tags = $globalcnf['bbcode'] ?? [];
 
-        $this->codeId = uniqid();
+        $this->codeId = uniqid('', true);
         $this->codeIndex = 0;
         $this->codeParts = [];
 
