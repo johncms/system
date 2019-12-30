@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Johncms\System\View\Extension;
 
+use InvalidArgumentException;
 use Mobicms\Render\Engine;
 use Mobicms\Render\ExtensionInterface;
 use Psr\Container\ContainerInterface;
@@ -48,7 +49,7 @@ class Assets implements ExtensionInterface
             }
         }
 
-        throw new \InvalidArgumentException('Unable to locate the asset: ' . $url);
+        throw new InvalidArgumentException('Unable to locate the asset: ' . $url);
     }
 
     public function urlFromPath(string $path, string $rootPath, string $baseUrl): string
