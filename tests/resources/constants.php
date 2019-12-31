@@ -21,3 +21,5 @@ defined('UPLOAD_PATH') || define('UPLOAD_PATH', ROOT_PATH . 'upload' . DS);
 defined('CACHE_PATH') || define('CACHE_PATH', DATA_PATH . 'cache' . DS);
 defined('LOG_PATH') || define('LOG_PATH', DATA_PATH . 'logs' . DS);
 defined('THEMES_PATH') || define('THEMES_PATH', ROOT_PATH . 'themes' . DS);
+
+const SQL_DUMPS = __DIR__ . DS . 'sql' . DS;
