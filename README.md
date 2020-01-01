@@ -22,7 +22,7 @@ By participating in this project and its community, you are expected to uphold t
 
 ## License
 
-The mobicms/captcha library is licensed for use under the GPL-3 License.  
+The `johncms/system` library is licensed for use under the GPL-3 License.  
 Please see [LICENSE](https://github.com/johncms/system/blob/master/LICENSE) for more information.
 
 
