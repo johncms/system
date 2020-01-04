@@ -9,7 +9,7 @@ use Johncms\System\Users\User;
 use Johncms\System\Users\UserStat;
 use PDO;
 use Test\Support\DatabaseTestCase;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class UserStatTest extends DatabaseTestCase
 {

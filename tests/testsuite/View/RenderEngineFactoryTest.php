@@ -19,8 +19,8 @@ use Johncms\System\View\Extension\Avatar;
 use Johncms\System\View\Render;
 use Johncms\System\View\RenderEngineFactory;
 use PHPUnit\Framework\TestCase;
-use Zend\I18n\Translator\Translator;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\I18n\Translator\Translator;
+use Laminas\ServiceManager\ServiceManager;
 
 class RenderEngineFactoryTest extends TestCase
 {

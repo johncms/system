@@ -16,8 +16,8 @@ use Johncms\System\Http\Request;
 use Johncms\System\i18n\TranslatorServiceFactory;
 use Johncms\System\Users\User;
 use PHPUnit\Framework\TestCase;
-use Zend\I18n\Translator\Translator;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\I18n\Translator\Translator;
+use Laminas\ServiceManager\ServiceManager;
 
 class TranslatorServiceFactoryTest extends TestCase
 {

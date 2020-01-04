@@ -13,12 +13,12 @@ declare(strict_types=1);
 namespace Johncms\System\Container;
 
 use Johncms\System\ConfigProvider as JohncmsConfig;
-use Zend\ConfigAggregator\{
+use Laminas\ConfigAggregator\{
     ArrayProvider,
     ConfigAggregator,
     PhpFileProvider
 };
-use Zend\I18n\ConfigProvider as I18nConfig;
+use Laminas\I18n\ConfigProvider as I18nConfig;
 
 class Config
 {

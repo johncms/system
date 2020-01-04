@@ -14,7 +14,7 @@ namespace Test\Suite\Container;
 
 use Johncms\System\Container\Factory;
 use PHPUnit\Framework\TestCase;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class FactoryTest extends TestCase
 {

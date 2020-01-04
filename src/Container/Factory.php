@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Johncms\System\Container;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class Factory
 {

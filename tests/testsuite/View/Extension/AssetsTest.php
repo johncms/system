@@ -16,7 +16,7 @@ use InvalidArgumentException;
 use Johncms\System\View\Extension\Assets;
 use Mobicms\Render\Engine;
 use PHPUnit\Framework\TestCase;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class AssetsTest extends TestCase
 {

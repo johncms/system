@@ -17,7 +17,7 @@ use Johncms\System\Utility\Tools;
 use Johncms\System\View\Extension\Assets;
 use Johncms\System\View\Extension\Avatar;
 use Psr\Container\ContainerInterface;
-use Zend\I18n\Translator\Translator;
+use Laminas\I18n\Translator\Translator;
 
 class RenderEngineFactory
 {

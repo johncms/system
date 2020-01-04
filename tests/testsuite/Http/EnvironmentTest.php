@@ -16,7 +16,7 @@ use GuzzleHttp\Psr7\Uri;
 use Johncms\System\Http\Environment;
 use Johncms\System\Http\Request;
 use PHPUnit\Framework\TestCase;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class EnvironmentTest extends TestCase
 {

@@ -16,7 +16,7 @@ use Johncms\System\Http\Request;
 use Johncms\System\Users\User;
 use Johncms\System\Users\UserConfig;
 use Psr\Container\ContainerInterface;
-use Zend\I18n\Translator\Translator;
+use Laminas\I18n\Translator\Translator;
 
 class TranslatorServiceFactory
 {

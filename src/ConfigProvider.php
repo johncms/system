@@ -33,7 +33,7 @@ use Johncms\System\View\Extension\{
 };
 use PDO;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\I18n\Translator\Translator;
+use Laminas\I18n\Translator\Translator;
 
 class ConfigProvider
 {

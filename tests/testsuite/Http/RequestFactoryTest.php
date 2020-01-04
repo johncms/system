@@ -16,7 +16,7 @@ use Johncms\System\Http\Request;
 use Johncms\System\Http\RequestFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class RequestFactoryTest extends TestCase
 {

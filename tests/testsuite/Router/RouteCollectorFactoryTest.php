@@ -16,7 +16,7 @@ use FastRoute\RouteCollector;
 use Johncms\System\Router\RouteCollectorFactory;
 use Johncms\System\Users\User;
 use PHPUnit\Framework\TestCase;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class RouteCollectorFactoryTest extends TestCase
 {

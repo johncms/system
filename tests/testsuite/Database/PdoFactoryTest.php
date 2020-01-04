@@ -16,7 +16,7 @@ use Johncms\System\Database\PdoFactory;
 use PDO;
 use PDOException;
 use PHPUnit\Framework\TestCase;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class PdoFactoryTest extends TestCase
 {
