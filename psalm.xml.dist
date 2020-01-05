@@ -24,6 +24,7 @@
                 <file name="src/Container/Factory.php"/>
                 <file name="src/Users/UserClean.php"/>
                 <file name="src/Users/UserStat.php"/>
+                <file name="src/Utility/Cleanup.php"/>
             </errorLevel>
         </UnusedClass>
 
