@@ -451,17 +451,21 @@ class Tools
      */
     public function getUser(int $id = 0)
     {
-        if ($id && $id !== $this->user->id) {
+        if ($id === $this->user->id) {
+            return $this->user;
+        }
+
+        $user = [];
+
+        if ($id > 0) {
             $req = $this->db->query("SELECT * FROM `users` WHERE `id` = '${id}'");
 
             if ($req->rowCount()) {
-                return $req->fetch();
+                $user = $req->fetch();
             }
-
-            return false;
         }
 
-        return $this->user;
+        return new User($user);
     }
 
     /**
