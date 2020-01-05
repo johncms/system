@@ -22,9 +22,9 @@ class UserClean
      */
     private $db;
 
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $this->db = Factory::getContainer()->get(PDO::class);
+        $this->db = $db;
     }
 
     public function removeUser(int $cleanId): void
