@@ -19,11 +19,11 @@ use Johncms\System\{
     Http\Request,
     Http\RequestFactory,
     i18n\TranslatorServiceFactory,
+    Legacy\Tools,
     Router\RouteCollectorFactory,
     Users\User,
     Users\UserFactory,
     Utility\Bbcode,
-    Utility\Tools,
     View\Render,
     View\RenderEngineFactory
 };
