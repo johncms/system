@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * This file is part of JohnCMS Content Management System.
+ *
+ * @copyright JohnCMS Community
+ * @license   https://opensource.org/licenses/GPL-3.0 GPL-3.0
+ * @link      https://johncms.com JohnCMS Project
+ */
+
+declare(strict_types=1);
+
 namespace Test\Suite\Users;
 
 use GuzzleHttp\Psr7\Uri;
@@ -61,8 +71,8 @@ class UserStatTest extends DatabaseTestCase
         // The record must contain the correct data
         $hash = md5(ip2long('192.168.0.1') . ip2long('92.63.107.114') . 'Test-Browser');
         $this->assertEquals($hash, $res['session_id']);
-        $this->assertEquals('192.168.0.1', long2ip($res['ip']));
-        $this->assertEquals('92.63.107.114', long2ip($res['ip_via_proxy']));
+        $this->assertEquals('192.168.0.1', long2ip((int) $res['ip']));
+        $this->assertEquals('92.63.107.114', long2ip((int) $res['ip_via_proxy']));
         $this->assertEquals('Test-Browser', $res['browser']);
         $this->assertEquals('/', $res['place']);
 

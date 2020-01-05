@@ -32,8 +32,8 @@
     },
     "autoload-dev": {
         "files": [
-            "tests/resources/constants.php",
-            "tests/resources/functions.php"
+            "tests/resources/stubs/constants.php",
+            "tests/resources/stubs/functions.php"
         ],
         "psr-4": {
             "Test\\Suite\\": "tests/testsuite/",
