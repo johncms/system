@@ -21,6 +21,7 @@
 
         <UnusedClass>
             <errorLevel type="suppress">
+                <file name="src/Container/Factory.php"/>
                 <file name="src/Users/UserClean.php"/>
                 <file name="src/Users/UserStat.php"/>
             </errorLevel>
