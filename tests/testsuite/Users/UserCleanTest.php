@@ -62,6 +62,7 @@ class UserCleanTest extends DatabaseTestCase
     {
         $this->loadSqlDump(SQL_DUMPS . 'albums.sql');
         mkdir(UPLOAD_PATH . 'users/album/1', 0777, true);
+        file_put_contents(UPLOAD_PATH . 'users/album/1/123.jpg', '');
 
         $this->assertEquals(1, $this->getRowCount('cms_album_cat'));
         $this->assertEquals(1, $this->getRowCount('cms_album_comments'));
@@ -70,6 +71,7 @@ class UserCleanTest extends DatabaseTestCase
         $this->assertEquals(1, $this->getRowCount('cms_album_views'));
         $this->assertEquals(1, $this->getRowCount('cms_album_votes'));
         $this->assertDirectoryExists(UPLOAD_PATH . 'users/album/1');
+        $this->assertFileExists(UPLOAD_PATH . 'users/album/1/123.jpg');
 
         $instance->removeAlbum(1);
 
@@ -172,7 +174,32 @@ class UserCleanTest extends DatabaseTestCase
         $this->assertEquals(0, $this->getRowCount('cms_users_guestbook'));
     }
 
-//    public function testCleanComments()
-//    {
-//    }
+    /**
+     * Testing the cleanComments() method
+     *
+     * @depends testCanCreateInstance
+     * @param UserClean $instance
+     */
+    public function testCleanComments(UserClean $instance)
+    {
+        $this->loadSqlDump(SQL_DUMPS . 'albums.sql');
+        $this->loadSqlDump(SQL_DUMPS . 'cms_library_comments.sql');
+        $this->loadSqlDump(SQL_DUMPS . 'cms_users_guestbook.sql');
+        $this->loadSqlDump(SQL_DUMPS . 'download__comments.sql');
+        $this->loadSqlDump(SQL_DUMPS . 'guest.sql');
+
+        $this->assertEquals(1, $this->getRowCount('cms_album_comments'));
+        $this->assertEquals(1, $this->getRowCount('cms_library_comments'));
+        $this->assertEquals(1, $this->getRowCount('cms_users_guestbook'));
+        $this->assertEquals(1, $this->getRowCount('download__comments'));
+        $this->assertEquals(1, $this->getRowCount('guest'));
+
+        $instance->cleanComments(1);
+
+        $this->assertEquals(0, $this->getRowCount('cms_album_comments'));
+        $this->assertEquals(0, $this->getRowCount('cms_library_comments'));
+        $this->assertEquals(0, $this->getRowCount('cms_users_guestbook'));
+        $this->assertEquals(0, $this->getRowCount('download__comments'));
+        $this->assertEquals(0, $this->getRowCount('guest'));
+    }
 }

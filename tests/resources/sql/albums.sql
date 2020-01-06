@@ -97,8 +97,8 @@ CREATE TABLE `cms_album_votes`
 INSERT INTO `cms_album_cat` (`user_id`, `description`)
 VALUES (1, '');
 
-INSERT INTO `cms_album_comments` (`sub_id`, `text`, `reply`, `attributes`)
-VALUES (1, '', '', '');
+INSERT INTO `cms_album_comments` (`sub_id`, `user_id`, `text`, `reply`, `attributes`)
+VALUES (1, 1, '', '', '');
 
 INSERT INTO `cms_album_downloads` (`user_id`)
 VALUES (1);
