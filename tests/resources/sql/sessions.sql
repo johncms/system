@@ -16,3 +16,6 @@ CREATE TABLE `cms_sessions`
 )
     ENGINE = MyISAM
     DEFAULT CHARSET = utf8mb4;
+
+INSERT INTO `cms_sessions` (`session_id`, `lastdate`)
+VALUES ('foo', 0);

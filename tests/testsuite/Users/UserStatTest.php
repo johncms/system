@@ -57,6 +57,7 @@ class UserStatTest extends DatabaseTestCase
 
     public function testCanWriteGuestStats(): void
     {
+        $hash = md5(ip2long('192.168.0.1') . ip2long('92.63.107.114') . 'Test-Browser');
         $this->container->setService(User::class, new User());
         $_SERVER['REQUEST_URI'] = '';
 
@@ -64,12 +65,11 @@ class UserStatTest extends DatabaseTestCase
         $this->assertInstanceOf(UserStat::class, new UserStat($this->container));
 
         // One record should appear in the session table
-        $req = self::$pdo->query('SELECT * FROM `cms_sessions`');
+        $req = self::$pdo->query("SELECT * FROM `cms_sessions` WHERE `session_id` = '${hash}'");
         $this->assertEquals(1, $req->rowCount());
         $res = $req->fetch();
 
         // The record must contain the correct data
-        $hash = md5(ip2long('192.168.0.1') . ip2long('92.63.107.114') . 'Test-Browser');
         $this->assertEquals($hash, $res['session_id']);
         $this->assertEquals('192.168.0.1', long2ip((int) $res['ip']));
         $this->assertEquals('92.63.107.114', long2ip((int) $res['ip_via_proxy']));
@@ -82,7 +82,7 @@ class UserStatTest extends DatabaseTestCase
         $_GET['type'] = 'section';
         $_SERVER['REQUEST_URI'] = 'forum';
         new UserStat($this->container);
-        $req2 = self::$pdo->query('SELECT * FROM `cms_sessions`');
+        $req2 = self::$pdo->query("SELECT * FROM `cms_sessions` WHERE `session_id` = '${hash}'");
         $this->assertEquals(1, $req2->rowCount());
         $res2 = $req2->fetch();
         $this->assertEquals('/forum?act=new&type=section&id=3', $res2['place']);
@@ -95,7 +95,7 @@ class UserStatTest extends DatabaseTestCase
             WHERE `session_id` = '" . $res2['session_id'] . "'"
         );
         new UserStat($this->container);
-        $req3 = self::$pdo->query('SELECT * FROM `cms_sessions`');
+        $req3 = self::$pdo->query("SELECT * FROM `cms_sessions` WHERE `session_id` = '${hash}'");
         $this->assertEquals(1, $req3->rowCount());
         $res3 = $req3->fetch();
         $this->assertEquals(1, $res3['movings']);

@@ -40,16 +40,9 @@ class CleanupTest extends DatabaseTestCase
     {
         $stmt = self::$pdo->prepare('INSERT INTO `cms_sessions` SET `session_id` = ?, `lastdate` = ?');
         $stmt->execute([md5('id'), (time() - 86401)]);
-        $stmt = self::$pdo->prepare('INSERT INTO `cms_users_iphistory` SET `user_id` = 1, `time` = ?');
-        $stmt->execute([(time() - 7776001)]);
 
         new Cleanup(self::$pdo);
         $this->assertEquals(0, $this->getRowCount('cms_sessions'));
         $this->assertEquals(0, $this->getRowCount('cms_users_iphistory'));
-    }
-
-    private function getRowCount(string $table): int
-    {
-        return (int) self::$pdo->query("SELECT COUNT(*) FROM ${table}")->fetchColumn();
     }
 }

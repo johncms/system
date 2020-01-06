@@ -12,3 +12,6 @@ CREATE TABLE `cms_users_iphistory`
 )
     ENGINE = MyISAM
     DEFAULT CHARSET = utf8mb4;
+
+INSERT INTO `cms_users_iphistory` (`user_id`, `time`)
+VALUES (1, 0);

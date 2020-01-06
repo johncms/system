@@ -64,6 +64,11 @@ class DatabaseTestCase extends TestCase
         }
     }
 
+    public function getRowCount(string $table): int
+    {
+        return (int) self::$pdo->query("SELECT COUNT(*) FROM ${table}")->fetchColumn();
+    }
+
     private function parseSql($file, PDO $pdo)
     {
         $errors = [];
