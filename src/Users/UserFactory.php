@@ -150,8 +150,6 @@ class UserFactory
      */
     protected function userUnset(): void
     {
-        unset($_SESSION['uid'], $_SESSION['ups']);
-
         setcookie('cuid', '');
         setcookie('cups', '');
     }
