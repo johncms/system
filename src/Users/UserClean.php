@@ -141,20 +141,16 @@ class UserClean
      */
     public function cleanComments(int $cleanId): void
     {
-        $req = $this->db->query('SELECT `name` FROM `users` WHERE `id` = ' . $cleanId);
-
-        if ($req->rowCount()) {
-            // Удаляем из Библиотеки
-            $this->db->exec("DELETE FROM `cms_library_comments` WHERE `user_id` = '" . $cleanId . "'");
-            // Удаляем из Загрузок
-            $this->db->exec("DELETE FROM `download__comments` WHERE `user_id` = '" . $cleanId . "'");
-            // Удаляем комментарии из личных гостевых
-            $this->db->exec("DELETE FROM `cms_users_guestbook` WHERE `user_id` = '" . $cleanId . "'");
-            // Удаляем комментарии из личных фотоальбомов
-            $this->db->exec("DELETE FROM `cms_album_comments` WHERE `user_id` = '" . $cleanId . "'");
-            // Удаляем посты из гостевой
-            $this->db->exec("DELETE FROM `guest` WHERE `user_id` = '" . $cleanId . "'");
-        }
+        // Удаляем из Библиотеки
+        $this->db->exec("DELETE FROM `cms_library_comments` WHERE `user_id` = '" . $cleanId . "'");
+        // Удаляем из Загрузок
+        $this->db->exec("DELETE FROM `download__comments` WHERE `user_id` = '" . $cleanId . "'");
+        // Удаляем комментарии из личных гостевых
+        $this->db->exec("DELETE FROM `cms_users_guestbook` WHERE `user_id` = '" . $cleanId . "'");
+        // Удаляем комментарии из личных фотоальбомов
+        $this->db->exec("DELETE FROM `cms_album_comments` WHERE `user_id` = '" . $cleanId . "'");
+        // Удаляем посты из гостевой
+        $this->db->exec("DELETE FROM `guest` WHERE `user_id` = '" . $cleanId . "'");
     }
 
     private function removeDir(string $dir): void
