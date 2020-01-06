@@ -155,11 +155,24 @@ class UserCleanTest extends DatabaseTestCase
         $this->assertEquals(1, $result['deleted']);
     }
 
-//    public function testCleanComments()
-//    {
-//    }
+    /**
+     * Testing the removeGuestbook() method
+     *
+     * @depends testCanCreateInstance
+     * @param UserClean $instance
+     */
+    public function testRemoveGuestbook(UserClean $instance)
+    {
+        $this->loadSqlDump(SQL_DUMPS . 'cms_users_guestbook.sql');
 
-//    public function testRemoveGuestbook()
+        $this->assertEquals(1, $this->getRowCount('cms_users_guestbook'));
+
+        $instance->removeGuestbook(1);
+
+        $this->assertEquals(0, $this->getRowCount('cms_users_guestbook'));
+    }
+
+//    public function testCleanComments()
 //    {
 //    }
 }
