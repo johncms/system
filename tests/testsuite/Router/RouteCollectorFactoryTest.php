@@ -15,15 +15,16 @@ namespace Test\Suite\Router;
 use FastRoute\RouteCollector;
 use Johncms\System\Router\RouteCollectorFactory;
 use Johncms\System\Users\User;
+use Mockery;
 use PHPUnit\Framework\TestCase;
-use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
 
 class RouteCollectorFactoryTest extends TestCase
 {
     public function testFactoryReturnsRouteCollectorInstance(): void
     {
-        $container = new ServiceManager();
-        $container->setService(User::class, $this->prophesize(User::class)->reveal());
+        $container = Mockery::mock(ContainerInterface::class);
+        $container->allows()->get(User::class)->andReturn(Mockery::mock(User::class));
         $instance = (new RouteCollectorFactory())($container);
         $this->assertInstanceOf(RouteCollector::class, $instance);
     }

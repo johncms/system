@@ -14,16 +14,16 @@ namespace Test\Suite\Http;
 
 use Johncms\System\Http\Request;
 use Johncms\System\Http\RequestFactory;
+use Mockery;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Laminas\ServiceManager\ServiceManager;
 
 class RequestFactoryTest extends TestCase
 {
     public function testFactoryReturnsServerRequestInstance(): void
     {
-        $container = new ServiceManager();
-        $instance = (new RequestFactory())($container);
+        $instance = (new RequestFactory())(Mockery::mock(ContainerInterface::class));
         $this->assertInstanceOf(Request::class, $instance);
         $this->assertInstanceOf(ServerRequestInterface::class, $instance);
     }

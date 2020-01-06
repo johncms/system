@@ -12,37 +12,17 @@ declare(strict_types=1);
 
 namespace Test\Suite\Http;
 
-use GuzzleHttp\Psr7\Uri;
 use Johncms\System\Http\Environment;
 use Johncms\System\Http\Request;
+use Mockery;
 use PHPUnit\Framework\TestCase;
-use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
 
 class EnvironmentTest extends TestCase
 {
-    private $request;
-
-    public function setUp(): void
-    {
-        $this->request = new Request(
-            'GET',
-            new Uri(''),
-            [],
-            null,
-            '1.1',
-            [
-                'REMOTE_ADDR'          => '127.0.0.1',
-                'HTTP_X_FORWARDED_FOR' => '92.63.107.114',
-                'HTTP_USER_AGENT'      => 'Test-Browser',
-            ]
-        );
-    }
-
     public function testCanCreateInstance(): Environment
     {
-        $container = new ServiceManager();
-        $container->setService(Request::class, $this->request);
-        $instance = (new Environment())($container);
+        $instance = (new Environment())($this->container());
         $this->assertInstanceOf(Environment::class, $instance);
         return $instance;
     }
@@ -68,20 +48,7 @@ class EnvironmentTest extends TestCase
 
     public function testGetIpViaProxyIgnorePrivateNetwork(): void
     {
-        $request = new Request(
-            'GET',
-            new Uri(''),
-            [],
-            null,
-            '1.1',
-            [
-                'REMOTE_ADDR'          => '127.0.0.1',
-                'HTTP_X_FORWARDED_FOR' => '192.168.0.1',
-            ]
-        );
-        $container = new ServiceManager();
-        $container->setService(Request::class, $request);
-        $environment = (new Environment())($container);
+        $environment = (new Environment())($this->container('127.0.0.1', '192.168.0.1'));
         $this->assertSame($environment->getIpViaProxy(), 0);
     }
 
@@ -97,10 +64,7 @@ class EnvironmentTest extends TestCase
 
     public function testUnrecognizedUserAgent(): void
     {
-        $request = new Request('GET', new Uri(''), [], null, '1.1', ['REMOTE_ADDR' => '127.0.0.1']);
-        $container = new ServiceManager();
-        $container->setService(Request::class, $request);
-        $environment = (new Environment())($container);
+        $environment = (new Environment())($this->container('127.0.0.1', null, null));
         $this->assertSame($environment->getUserAgent(), 'Not Recognised');
     }
 
@@ -124,10 +88,7 @@ class EnvironmentTest extends TestCase
         }
 
         copy($example, $file);
-        $request = new Request('GET', new Uri(''), [], null, '1.1', ['REMOTE_ADDR' => '127.0.0.1']);
-        $container = new ServiceManager();
-        $container->setService(Request::class, $request);
-        (new Environment())($container);
+        (new Environment())($this->container());
         $this->assertFileExists($file);
     }
 
@@ -139,10 +100,36 @@ class EnvironmentTest extends TestCase
             unlink($file);
         }
 
-        $request = new Request('GET', new Uri(''), [], null, '1.1', ['REMOTE_ADDR' => '127.0.0.1']);
-        $container = new ServiceManager();
-        $container->setService(Request::class, $request);
-        (new Environment())($container);
+        (new Environment())($this->container());
         $this->assertFileExists($file);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Auxiliary methods                                                          //
+    ////////////////////////////////////////////////////////////////////////////////
+
+    private function container(
+        string $ip = '127.0.0.1',
+        ?string $ipViaProxy = '92.63.107.114',
+        ?string $userAgent = 'Test-Browser'
+    ): ContainerInterface {
+        $request = Mockery::mock(Request::class);
+        $request
+            ->allows()
+            ->getServer('REMOTE_ADDR', 0, FILTER_VALIDATE_IP)
+            ->andReturn($ip);
+        $request
+            ->allows()
+            ->getServer('HTTP_X_FORWARDED_FOR', '', FILTER_SANITIZE_STRING)
+            ->andReturn($ipViaProxy ?? '');
+        $request
+            ->allows()
+            ->getServer('HTTP_USER_AGENT', 'Not Recognised', FILTER_SANITIZE_SPECIAL_CHARS)
+            ->andReturn($userAgent ?? 'Not Recognised');
+
+        $container = Mockery::mock(ContainerInterface::class);
+        $container->allows()->has(Request::class)->andReturn(true);
+        $container->allows()->get(Request::class)->andReturn($request);
+        return $container;
     }
 }

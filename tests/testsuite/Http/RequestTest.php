@@ -27,8 +27,6 @@ class RequestTest extends TestCase
         return $request;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////
-
     /**
      * @depends testCanCreateInstance
      * @param Request $request
@@ -67,8 +65,6 @@ class RequestTest extends TestCase
         $this->assertNull($request->getQuery('foo', null, FILTER_VALIDATE_INT));
     }
 
-    ////////////////////////////////////////////////////////////////////////////////
-
     /**
      * @depends testCanCreateInstance
      * @param Request $request
@@ -106,8 +102,6 @@ class RequestTest extends TestCase
         $request = $request->withParsedBody(['foo' => 'bar']);
         $this->assertNull($request->getPost('foo', null, FILTER_VALIDATE_INT));
     }
-
-    ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @depends testCanCreateInstance

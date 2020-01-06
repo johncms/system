@@ -15,9 +15,10 @@ namespace Test\Suite\i18n;
 use Johncms\System\Http\Request;
 use Johncms\System\i18n\TranslatorServiceFactory;
 use Johncms\System\Users\User;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use Laminas\I18n\Translator\Translator;
-use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
 
 class TranslatorServiceFactoryTest extends TestCase
 {
@@ -84,7 +85,7 @@ class TranslatorServiceFactoryTest extends TestCase
     // Auxiliary methods                                                          //
     ////////////////////////////////////////////////////////////////////////////////
 
-    private function getContainer($options = []): ServiceManager
+    private function getContainer($options = []): ContainerInterface
     {
         $request = new Request('POST', '');
 
@@ -92,11 +93,18 @@ class TranslatorServiceFactoryTest extends TestCase
             $request = $request->withParsedBody(['setlng' => $options['post']]);
         }
 
-        $container = new ServiceManager();
-        $container->setService(Request::class, $request);
-
-        $container->setService(
-            'config',
+        $container = Mockery::mock(ContainerInterface::class);
+        $container
+            ->allows()
+            ->get(Request::class)
+            ->andReturn($request);
+        $container
+            ->allows()
+            ->get(User::class)
+            ->andReturn(
+                new User(['set_user' => isset($options['user']) ? serialize(['lng' => $options['user']]) : ''])
+            );
+        $container->allows()->get('config')->andReturn(
             [
                 'johncms' => [
                     'lng'      => 'en',
@@ -107,11 +115,6 @@ class TranslatorServiceFactoryTest extends TestCase
                     ],
                 ],
             ]
-        );
-
-        $container->setService(
-            User::class,
-            new User(['set_user' => isset($options['user']) ? serialize(['lng' => $options['user']]) : ''])
         );
 
         return $container;

@@ -13,25 +13,28 @@ declare(strict_types=1);
 namespace Test\Suite\Database;
 
 use Johncms\System\Database\PdoFactory;
+use Mockery;
 use PDO;
 use PDOException;
 use PHPUnit\Framework\TestCase;
-use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
 
 class PdoFactoryTest extends TestCase
 {
     public function testFactoryReturnsPdoInstance()
     {
-        /** @var ServiceManager $container */
-        $container = new ServiceManager();
-        $container->setService('database', ['dsn' => 'sqlite::memory:']);
+        $container = Mockery::mock(ContainerInterface::class);
+        $container->allows()->has('database')->andReturn(true);
+        $container->allows()->get('database')->andReturn(['dsn' => 'sqlite::memory:']);
         $factory = (new PdoFactory())($container);
         $this->assertInstanceOf(PDO::class, $factory);
     }
 
     public function testtestPdoException(): void
     {
+        $container = Mockery::mock(ContainerInterface::class);
+        $container->allows()->has('database')->andReturn(false);
         $this->expectException(PDOException::class);
-        (new PdoFactory())(new ServiceManager());
+        (new PdoFactory())($container);
     }
 }
