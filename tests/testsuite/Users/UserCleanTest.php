@@ -17,6 +17,11 @@ use Test\Support\DatabaseTestCase;
 
 class UserCleanTest extends DatabaseTestCase
 {
+    /**
+     * Testing the __construct() method
+     *
+     * @return UserClean
+     */
     public function testCanCreateInstance(): UserClean
     {
         $instance = new UserClean(self::$pdo);
@@ -25,6 +30,8 @@ class UserCleanTest extends DatabaseTestCase
     }
 
     /**
+     * Testing the removeUser() method
+     *
      * @depends testCanCreateInstance
      * @param UserClean $instance
      */
@@ -46,6 +53,8 @@ class UserCleanTest extends DatabaseTestCase
     }
 
     /**
+     * Testing the removeAlbum() method
+     *
      * @depends testCanCreateInstance
      * @param UserClean $instance
      */
@@ -74,6 +83,8 @@ class UserCleanTest extends DatabaseTestCase
     }
 
     /**
+     * Testing the removeMail() method
+     *
      * @depends testCanCreateInstance
      * @param UserClean $instance
      */
@@ -97,15 +108,28 @@ class UserCleanTest extends DatabaseTestCase
         $this->assertFileNotExists(UPLOAD_PATH . 'mail/from.txt');
     }
 
+    /**
+     * Testing the removeKarma() method
+     *
+     * @depends testCanCreateInstance
+     * @param UserClean $instance
+     */
+    public function testRemoveKarma(UserClean $instance): void
+    {
+        $this->loadSqlDump(SQL_DUMPS . 'karma_users.sql');
+
+        $this->assertEquals(1, $this->getRowCount('karma_users'));
+
+        $instance->removeKarma(1);
+
+        $this->assertEquals(0, $this->getRowCount('karma_users'));
+    }
+
 //    public function testCleanComments()
 //    {
 //    }
 
 //    public function testRemoveGuestbook()
-//    {
-//    }
-
-//    public function testRemoveKarma()
 //    {
 //    }
 
