@@ -125,15 +125,41 @@ class UserCleanTest extends DatabaseTestCase
         $this->assertEquals(0, $this->getRowCount('karma_users'));
     }
 
+    /**
+     * Testing the cleanForum() method
+     *
+     * @depends testCanCreateInstance
+     * @param UserClean $instance
+     */
+    public function testCleanForum(UserClean $instance): void
+    {
+        $this->loadSqlDump(SQL_DUMPS . 'forum.sql');
+
+        $this->assertEquals(1, $this->getRowCount('forum_topic'));
+        $this->assertEquals(1, $this->getRowCount('forum_messages'));
+        $this->assertEquals(1, $this->getRowCount('cms_forum_rdm'));
+
+        $instance->cleanForum(1);
+
+        // Only the reading label should be deleted
+        $this->assertEquals(1, $this->getRowCount('forum_topic'));
+        $this->assertEquals(1, $this->getRowCount('forum_messages'));
+        $this->assertEquals(0, $this->getRowCount('cms_forum_rdm'));
+
+        // Whether the deletion flag for the topic
+        $result = self::$pdo->query('SELECT * FROM `forum_topic` WHERE `user_id` = 1')->fetch();
+        $this->assertEquals(1, $result['deleted']);
+
+        // Whether the deletion flag for the message
+        $result = self::$pdo->query('SELECT * FROM `forum_messages` WHERE `user_id` = 1')->fetch();
+        $this->assertEquals(1, $result['deleted']);
+    }
+
 //    public function testCleanComments()
 //    {
 //    }
 
 //    public function testRemoveGuestbook()
-//    {
-//    }
-
-//    public function testCleanForum()
 //    {
 //    }
 }
