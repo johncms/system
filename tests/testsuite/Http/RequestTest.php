@@ -20,8 +20,7 @@ class RequestTest extends TestCase
 {
     public function testCanCreateInstance(): Request
     {
-        /** @var Request $request */
-        $request = Request::fromGlobals();
+        $request = new Request('post', '/', [], null, '1.1', ['foo' => 'bar']);
         $this->assertInstanceOf(Request::class, $request);
         $this->assertInstanceOf(ServerRequestInterface::class, $request);
         return $request;
@@ -139,5 +138,14 @@ class RequestTest extends TestCase
     {
         $request = $request->withParsedBody(['foo' => 'bar']);
         $this->assertNull($request->getCookie('foo', null, FILTER_VALIDATE_INT));
+    }
+
+    /**
+     * @depends testCanCreateInstance
+     * @param Request $request
+     */
+    public function testGetServerReturnsValueOfRequestedKey(Request $request): void
+    {
+        $this->assertSame('bar', $request->getServer('foo'));
     }
 }
