@@ -20,6 +20,11 @@ use Psr\Container\ContainerInterface;
 
 class EnvironmentTest extends TestCase
 {
+    public function tearDown(): void
+    {
+        Mockery::close();
+    }
+
     public function testCanCreateInstance(): Environment
     {
         $instance = (new Environment())($this->container());

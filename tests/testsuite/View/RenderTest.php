@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Test\Suite\View;
 
 use Johncms\System\View\Render;
-use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
 class RenderTest extends TestCase
@@ -23,7 +22,6 @@ class RenderTest extends TestCase
 
     public function setUp(): void
     {
-        vfsStream::setup('templates');
         $this->render = new Render();
     }
 
@@ -35,30 +33,26 @@ class RenderTest extends TestCase
     public function testAddFolderWithDefaultTheme(): void
     {
         $this->render->setTheme('default');
-        vfsStream::create(['folder' => ['template.php' => '']]);
-        $this->render->addFolder('folder', vfsStream::url('templates/folder'));
-        $this->assertEquals($this->render->getFolder('folder')[0], 'vfs://templates/folder');
+        $this->render->addFolder('folder', THEMES_PATH);
+        $this->assertEquals($this->render->getFolder('folder')[0], THEMES_PATH);
     }
 
     public function testAddFolderWithExampleTheme(): void
     {
         $this->render->setTheme('example');
-        vfsStream::create(['folder' => ['template.php' => '']]);
-        $this->render->addFolder('folder', vfsStream::url('templates/folder'));
-        $this->assertEquals($this->render->getFolder('folder')[0], 'vfs://templates/folder');
+        $this->render->addFolder('folder', THEMES_PATH);
+        $this->assertEquals($this->render->getFolder('folder')[0], THEMES_PATH);
     }
 
     public function testRenderTemplate()
     {
-        $this->render->addFolder('tmp', vfsStream::url('templates'));
-        vfsStream::create(['template.phtml' => 'Hello!']);
-        $this->assertEquals($this->render->render('tmp::template'), 'Hello!');
+        $this->render->addFolder('system', THEMES_PATH . 'default/templates/system');
+        $this->assertStringContainsString('default-system-template', $this->render->render('system::template'));
     }
 
     public function testRenderInvalidTemplateName()
     {
-        $this->render->addFolder('tmp', vfsStream::url('templates'));
-        vfsStream::create(['template.phtml' => 'Hello!']);
-        $this->assertEquals($this->render->render('tmp::error'), 'The template "tmp::error" does not exist.');
+        $this->render->addFolder('system', THEMES_PATH . 'default/templates/system');
+        $this->assertEquals('The template "system::error" does not exist.', $this->render->render('system::error'));
     }
 }

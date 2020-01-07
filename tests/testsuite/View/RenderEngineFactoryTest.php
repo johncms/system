@@ -18,41 +18,71 @@ use Johncms\System\View\Extension\Assets;
 use Johncms\System\View\Extension\Avatar;
 use Johncms\System\View\Render;
 use Johncms\System\View\RenderEngineFactory;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use Laminas\I18n\Translator\Translator;
-use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
 
 class RenderEngineFactoryTest extends TestCase
 {
-    public function testFactoryReturnsRenderInstance(): Render
+    /** @var Render */
+    private $render;
+
+    public function setUp(): void
     {
-        $translator = $this->prophesize(Translator::class);
-        $translator->getLocale()->willReturn('en');
+        $translator = Mockery::mock(Translator::class);
+        $translator
+            ->allows()
+            ->getLocale()
+            ->andReturn('en');
 
-        $container = new ServiceManager();
-        $container->setService('config', ['johncms' => ['skindef' => 'default']]);
-        $container->setService(Translator::class, $translator->reveal());
-        $container->setService(Tools::class, $this->prophesize(Tools::class)->reveal());
-        $container->setService(User::class, $this->prophesize(User::class)->reveal());
-        $container->setService(Assets::class, (new Assets())($container));
-        $container->setService(Avatar::class, (new Avatar())($container));
+        $container = Mockery::mock(ContainerInterface::class);
+        $container
+            ->allows()
+            ->get('config')
+            ->andReturn(['johncms' => ['skindef' => 'default']]);
+        $container
+            ->allows()
+            ->get(Translator::class)
+            ->andReturn($translator);
+        $container
+            ->allows()
+            ->get(Tools::class)
+            ->andReturn(Mockery::mock(Tools::class));
+        $container
+            ->allows()
+            ->get(User::class)
+            ->andReturn(Mockery::mock(User::class));
+        $container
+            ->allows()
+            ->get(Assets::class)
+            ->andReturn((new Assets())($container));
+        $container
+            ->allows()
+            ->get(Avatar::class)
+            ->andReturn((new Avatar())($container));
 
-        $instance = (new RenderEngineFactory())($container);
-        $this->assertInstanceOf(Render::class, $instance);
-        return $instance;
+        $this->render = (new RenderEngineFactory())($container);
     }
 
-    /**
-     * @depends testFactoryReturnsRenderInstance
-     * @param Render $engine
-     */
-    public function testTemplatesHasPredefinedData(Render $engine): void
+    public function tearDown(): void
     {
-        $data = $engine->getData();
-        $this->assertInstanceOf(ServiceManager::class, $data['container']);
-        $this->assertIsArray($data['config']);
+        Mockery::close();
+    }
+
+    public function testTemplatesHasPredefinedData(): void
+    {
+        $data = $this->render->getData();
+        $this->assertInstanceOf(ContainerInterface::class, $data['container']);
+        $this->assertArrayHasKey('skindef', $data['config']);
         $this->assertSame('en', $data['locale']);
         $this->assertInstanceOf(Tools::class, $data['tools']);
         $this->assertInstanceOf(User::class, $data['user']);
+    }
+
+    public function testTemplatesHasPredefinedHelpers(): void
+    {
+        $this->assertTrue($this->render->doesFunctionExist('asset'));
+        $this->assertTrue($this->render->doesFunctionExist('avatar'));
     }
 }

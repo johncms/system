@@ -15,8 +15,9 @@ namespace Test\Suite\View\Extension;
 use Johncms\System\View\Extension\Assets;
 use Johncms\System\View\Extension\Avatar;
 use Mobicms\Render\Engine;
+use Mockery;
 use PHPUnit\Framework\TestCase;
-use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
 
 class AvatarTest extends TestCase
 {
@@ -25,10 +26,21 @@ class AvatarTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = new ServiceManager();
-        $container->setService('config', ['johncms' => ['skindef' => 'test', 'homeurl' => 'http://localhost']]);
-        $container->setService(Assets::class, (new Assets())($container));
+        $container = Mockery::mock(ContainerInterface::class);
+        $container
+            ->allows()
+            ->get('config')
+            ->andReturn(['johncms' => ['skindef' => 'test', 'homeurl' => 'http://localhost']]);
+        $container
+            ->allows()
+            ->get(Assets::class)
+            ->andReturn((new Assets())($container));
         $this->avatar = (new Avatar())($container);
+    }
+
+    public function tearDown(): void
+    {
+        Mockery::close();
     }
 
     public function testCanCreateInstance()

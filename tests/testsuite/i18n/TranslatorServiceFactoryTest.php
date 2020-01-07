@@ -22,6 +22,11 @@ use Psr\Container\ContainerInterface;
 
 class TranslatorServiceFactoryTest extends TestCase
 {
+    public function tearDown(): void
+    {
+        Mockery::close();
+    }
+
     public function setUp(): void
     {
         $_SESSION = [];
@@ -104,18 +109,21 @@ class TranslatorServiceFactoryTest extends TestCase
             ->andReturn(
                 new User(['set_user' => isset($options['user']) ? serialize(['lng' => $options['user']]) : ''])
             );
-        $container->allows()->get('config')->andReturn(
-            [
-                'johncms' => [
-                    'lng'      => 'en',
-                    'lng_list' => [
-                        'en' => 'English',
-                        'ru' => 'Русский',
-                        'ge' => 'ქართული',
+        $container
+            ->allows()
+            ->get('config')
+            ->andReturn(
+                [
+                    'johncms' => [
+                        'lng'      => 'en',
+                        'lng_list' => [
+                            'en' => 'English',
+                            'ru' => 'Русский',
+                            'ge' => 'ქართული',
+                        ],
                     ],
-                ],
-            ]
-        );
+                ]
+            );
 
         return $container;
     }

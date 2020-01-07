@@ -15,6 +15,7 @@ namespace Test\Suite\Container;
 use Johncms\System\Container\Factory;
 use PHPUnit\Framework\TestCase;
 use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
 
 class FactoryTest extends TestCase
 {
@@ -22,5 +23,6 @@ class FactoryTest extends TestCase
     {
         $container = Factory::getContainer();
         $this->assertInstanceOf(ServiceManager::class, $container);
+        $this->assertInstanceOf(ContainerInterface::class, $container);
     }
 }

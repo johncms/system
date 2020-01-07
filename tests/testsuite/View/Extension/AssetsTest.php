@@ -15,8 +15,9 @@ namespace Test\Suite\View\Extension;
 use InvalidArgumentException;
 use Johncms\System\View\Extension\Assets;
 use Mobicms\Render\Engine;
+use Mockery;
 use PHPUnit\Framework\TestCase;
-use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
 
 class AssetsTest extends TestCase
 {
@@ -25,9 +26,17 @@ class AssetsTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = new ServiceManager();
-        $container->setService('config', ['johncms' => ['skindef' => 'test', 'homeurl' => 'http://localhost']]);
+        $container = Mockery::mock(ContainerInterface::class);
+        $container
+            ->allows()
+            ->get('config')
+            ->andReturn(['johncms' => ['skindef' => 'test', 'homeurl' => 'http://localhost']]);
         $this->assets = (new Assets())($container);
+    }
+
+    public function tearDown(): void
+    {
+        Mockery::close();
     }
 
     public function testCanCreateInstance()

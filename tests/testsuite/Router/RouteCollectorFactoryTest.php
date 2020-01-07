@@ -24,7 +24,10 @@ class RouteCollectorFactoryTest extends TestCase
     public function testFactoryReturnsRouteCollectorInstance(): void
     {
         $container = Mockery::mock(ContainerInterface::class);
-        $container->allows()->get(User::class)->andReturn(Mockery::mock(User::class));
+        $container
+            ->allows()
+            ->get(User::class)
+            ->andReturn(Mockery::mock(User::class));
         $instance = (new RouteCollectorFactory())($container);
         $this->assertInstanceOf(RouteCollector::class, $instance);
     }

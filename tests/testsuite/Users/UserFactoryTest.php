@@ -33,13 +33,33 @@ class UserFactoryTest extends DatabaseTestCase
         $this->loadSqlDump(SQL_DUMPS . 'cms_users_iphistory.sql');
 
         $environment = Mockery::mock(Environment::class);
-        $environment->allows()->getIp()->andReturn(0);
-        $environment->allows()->getIpViaProxy()->andReturn(0);
-        $environment->allows()->getUserAgent()->andReturn('Test-User-Agent');
+        $environment
+            ->allows()
+            ->getIp()
+            ->andReturn(0);
+        $environment
+            ->allows()
+            ->getIpViaProxy()
+            ->andReturn(0);
+        $environment
+            ->allows()
+            ->getUserAgent()
+            ->andReturn('Test-User-Agent');
 
         $this->container = Mockery::mock(ContainerInterface::class);
-        $this->container->allows()->get(PDO::class)->andReturn(self::$pdo);
-        $this->container->allows()->get(Environment::class)->andReturn($environment);
+        $this->container
+            ->allows()
+            ->get(PDO::class)
+            ->andReturn(self::$pdo);
+        $this->container
+            ->allows()
+            ->get(Environment::class)
+            ->andReturn($environment);
+    }
+
+    public function tearDown(): void
+    {
+        Mockery::close();
     }
 
     public function testFactoryReturnsUserInstanceWithUnauthenticatedUser(): void
@@ -65,8 +85,17 @@ class UserFactoryTest extends DatabaseTestCase
     {
         $hash = $password !== '' ? md5($password) : '';
         $request = Mockery::mock(Request::class);
-        $request->allows()->getCookie('cuid', 0, FILTER_SANITIZE_NUMBER_INT)->andReturn($id);
-        $request->allows()->getCookie('cups', '', FILTER_SANITIZE_STRING)->andReturn($hash);
-        $this->container->allows()->get(Request::class)->andReturn($request);
+        $request
+            ->allows()
+            ->getCookie('cuid', 0, FILTER_SANITIZE_NUMBER_INT)
+            ->andReturn($id);
+        $request
+            ->allows()
+            ->getCookie('cups', '', FILTER_SANITIZE_STRING)
+            ->andReturn($hash);
+        $this->container
+            ->allows()
+            ->get(Request::class)
+            ->andReturn($request);
     }
 }

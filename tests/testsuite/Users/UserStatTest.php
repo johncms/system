@@ -12,18 +12,18 @@ declare(strict_types=1);
 
 namespace Test\Suite\Users;
 
-use GuzzleHttp\Psr7\Uri;
 use Johncms\System\Http\Environment;
 use Johncms\System\Http\Request;
 use Johncms\System\Users\User;
 use Johncms\System\Users\UserStat;
+use Mockery;
 use PDO;
+use Psr\Container\ContainerInterface;
 use Test\Support\DatabaseTestCase;
-use Laminas\ServiceManager\ServiceManager;
 
 class UserStatTest extends DatabaseTestCase
 {
-    /** @var ServiceManager */
+    /** @var ContainerInterface */
     private $container;
 
     public function setUp(): void
@@ -34,31 +34,44 @@ class UserStatTest extends DatabaseTestCase
 
         $this->loadSqlDump(SQL_DUMPS . 'users.sql');
         $this->loadSqlDump(SQL_DUMPS . 'sessions.sql');
-        $this->container = new ServiceManager();
-        $this->container->setService(PDO::class, self::$pdo);
+        $this->container = Mockery::mock(ContainerInterface::class);
+        $this->container
+            ->allows()
+            ->get(PDO::class)
+            ->andReturn(self::$pdo);
 
-        $request = new Request(
-            'GET',
-            new Uri(''),
-            [],
-            null,
-            '1.1',
-            [
-                'REMOTE_ADDR'          => '192.168.0.1',
-                'HTTP_X_FORWARDED_FOR' => '92.63.107.114',
-                'HTTP_USER_AGENT'      => 'Test-Browser',
-            ]
-        );
+        $environment = Mockery::mock(Environment::class);
+        $environment
+            ->allows()
+            ->getIp()
+            ->andReturn(ip2long('192.168.0.1'));
+        $environment
+            ->allows()
+            ->getIpViaProxy()
+            ->andReturn(ip2long('92.63.107.114'));
+        $environment
+            ->allows()
+            ->getUserAgent()
+            ->andReturn('Test-Browser');
 
-        $this->container->setService(Request::class, $request);
-        $this->container->setService(Environment::class, (new Environment())($this->container));
-        $this->container->setAllowOverride(true);
+        $this->container
+            ->allows()
+            ->get(Environment::class)
+            ->andReturn($environment);
+    }
+
+    public function tearDown(): void
+    {
+        Mockery::close();
     }
 
     public function testCanWriteGuestStats(): void
     {
         $hash = md5(ip2long('192.168.0.1') . ip2long('92.63.107.114') . 'Test-Browser');
-        $this->container->setService(User::class, new User());
+        $this->container
+            ->allows()
+            ->get(User::class)
+            ->andReturn(new User());
         $_SERVER['REQUEST_URI'] = '';
 
         // Can create instance
@@ -104,7 +117,10 @@ class UserStatTest extends DatabaseTestCase
 
     public function testCanWriteUserStats(): void
     {
-        $this->container->setService(User::class, new User(['id' => 1, 'preg' => 1]));
+        $this->container
+            ->allows()
+            ->get(User::class)
+            ->andReturn(new User(['id' => 1, 'preg' => 1]));
         $_SERVER['REQUEST_URI'] = '';
         $_GET = [];
 
@@ -122,10 +138,10 @@ class UserStatTest extends DatabaseTestCase
 
     public function testCanDetermineUserPlaceAndMovings(): void
     {
-        $this->container->setService(
-            User::class,
-            new User(['id' => 1, 'preg' => 1, 'lastdate' => time(), 'movings' => 1])
-        );
+        $this->container
+            ->allows()
+            ->get(User::class)
+            ->andReturn(new User(['id' => 1, 'preg' => 1, 'lastdate' => time(), 'movings' => 1]));
         $_SERVER['REQUEST_URI'] = '';
         $_GET = [];
 
