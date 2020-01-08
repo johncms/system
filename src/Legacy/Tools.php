@@ -590,7 +590,7 @@ class Tools
             $var = 0;
         }
 
-        $day = ceil($var / 86400);
+        $day = intdiv($var, 86400);
 
         return $var >= 86400
             ? $day . ' ' . _p('Day', 'Days', $day, 'system')
