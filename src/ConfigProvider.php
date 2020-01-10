@@ -18,6 +18,7 @@ use Johncms\System\{
     Http\Environment,
     Http\Request,
     Http\RequestFactory,
+    i18n\Translator,
     i18n\TranslatorServiceFactory,
     Legacy\Bbcode,
     Legacy\Tools,
@@ -33,7 +34,6 @@ use Johncms\System\View\Extension\{
 };
 use PDO;
 use Psr\Http\Message\ServerRequestInterface;
-use Laminas\I18n\Translator\Translator;
 
 class ConfigProvider
 {

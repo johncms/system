@@ -16,7 +16,6 @@ use Johncms\System\Http\Request;
 use Johncms\System\Users\User;
 use Johncms\System\Users\UserConfig;
 use Psr\Container\ContainerInterface;
-use Laminas\I18n\Translator\Translator;
 
 class TranslatorServiceFactory
 {
@@ -31,8 +30,8 @@ class TranslatorServiceFactory
         // Configure the translator
         $config = $container->get('config');
 
-        $trConfig = $config['translator'] ?? [];
-        $translator = Translator::factory($trConfig);
+        $translator = new Translator();
+        $translator->defaultDomain('default');
         $translator->setLocale(
             $this->determineLocale(
                 $userConfig->lng,

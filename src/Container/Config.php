@@ -18,7 +18,6 @@ use Laminas\ConfigAggregator\{
     ConfigAggregator,
     PhpFileProvider
 };
-use Laminas\I18n\ConfigProvider as I18nConfig;
 
 class Config
 {
@@ -33,7 +32,6 @@ class Config
                 new ArrayProvider(['config_cache_path' => $this->cacheFile]),
 
                 // Include packages configuration
-                I18nConfig::class,
                 JohncmsConfig::class,
 
                 // Load application config in a pre-defined order
