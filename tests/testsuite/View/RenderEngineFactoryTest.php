@@ -20,7 +20,7 @@ use Johncms\System\View\Render;
 use Johncms\System\View\RenderEngineFactory;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use Laminas\I18n\Translator\Translator;
+use Johncms\System\i18n\Translator;
 use Psr\Container\ContainerInterface;
 
 class RenderEngineFactoryTest extends TestCase

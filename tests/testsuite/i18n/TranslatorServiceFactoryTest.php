@@ -17,7 +17,7 @@ use Johncms\System\i18n\TranslatorServiceFactory;
 use Johncms\System\Users\User;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use Laminas\I18n\Translator\Translator;
+use Johncms\System\i18n\Translator;
 use Psr\Container\ContainerInterface;
 
 class TranslatorServiceFactoryTest extends TestCase
