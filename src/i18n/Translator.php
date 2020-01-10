@@ -16,9 +16,10 @@ use Gettext\Translator as Gettext;
 
 class Translator extends Gettext
 {
+    /** @var string */
     private $locale = 'ru';
 
-    public function addTranslationFilePattern(string $pattern)
+    public function addTranslationFilePattern(string $pattern): void
     {
         $path = sprintf($pattern, $this->locale);
 
