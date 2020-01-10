@@ -17,7 +17,6 @@
         "laminas/laminas-config-aggregator": "^1.2",
         "laminas/laminas-i18n": "^2.10",
         "laminas/laminas-servicemanager": "^3.4",
-        "gettext/gettext": "^5.2",
         "gettext/translator": "^1.0"
     },
     "require-dev": {
