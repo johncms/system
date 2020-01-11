@@ -19,12 +19,13 @@ class Translator extends Gettext
     /** @var string */
     private $locale = 'ru';
 
-    public function addTranslationFilePattern(string $pattern): void
+    public function addTranslationDomain(string $domain, string $localesPath): void
     {
-        $path = sprintf($pattern, $this->locale);
+        $file = rtrim($localesPath, '/') . '/' . $this->locale . '.lng';
 
-        if (is_file($path)) {
-            $this->loadTranslations($path);
+        if (is_file($file)) {
+            $this->defaultDomain($domain);
+            $this->loadTranslations($file);
         }
     }
 
