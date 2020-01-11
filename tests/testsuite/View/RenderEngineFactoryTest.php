@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Test\Suite\View;
 
 use Johncms\System\Users\User;
-use Johncms\System\Legacy\Tools;
 use Johncms\System\View\Extension\Assets;
 use Johncms\System\View\Extension\Avatar;
 use Johncms\System\View\Render;
@@ -47,10 +46,6 @@ class RenderEngineFactoryTest extends TestCase
             ->andReturn($translator);
         $container
             ->allows()
-            ->get(Tools::class)
-            ->andReturn(Mockery::mock(Tools::class));
-        $container
-            ->allows()
             ->get(User::class)
             ->andReturn(Mockery::mock(User::class));
         $container
@@ -76,7 +71,6 @@ class RenderEngineFactoryTest extends TestCase
         $this->assertInstanceOf(ContainerInterface::class, $data['container']);
         $this->assertArrayHasKey('skindef', $data['config']);
         $this->assertSame('en', $data['locale']);
-        $this->assertInstanceOf(Tools::class, $data['tools']);
         $this->assertInstanceOf(User::class, $data['user']);
     }
 

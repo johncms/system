@@ -8,7 +8,6 @@ build:
 filter:
   dependency_paths:
     - tests/*
-    - src/Legacy/
 
 tools:
   external_code_coverage: true

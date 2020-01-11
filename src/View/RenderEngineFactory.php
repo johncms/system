@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Johncms\System\View;
 
 use Johncms\System\Users\User;
-use Johncms\System\Legacy\Tools;
 use Johncms\System\View\Extension\Assets;
 use Johncms\System\View\Extension\Avatar;
 use Psr\Container\ContainerInterface;
@@ -34,7 +33,6 @@ class RenderEngineFactory
                 'container' => $container,
                 'config'    => $config,
                 'locale'    => $container->get(Translator::class)->getLocale(),
-                'tools'     => $container->get(Tools::class),
                 'user'      => $container->get(User::class),
             ]
         );
