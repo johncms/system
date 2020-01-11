@@ -33,7 +33,7 @@
                 <referencedMethod name="Johncms\System\Http\Request::getQuery"/>
                 <referencedMethod name="Johncms\System\Http\Request::getCookie"/>
                 <referencedMethod name="Johncms\System\Http\Request::getServer"/>
-                <referencedMethod name="Johncms\System\i18n\Translator::addTranslationFilePattern"/>
+                <referencedMethod name="Johncms\System\i18n\Translator::addTranslationDomain"/>
                 <referencedMethod name="Johncms\System\i18n\Translator::getLocale"/>
                 <referencedMethod name="Johncms\System\Users\User::isValid"/>
             </errorLevel>
