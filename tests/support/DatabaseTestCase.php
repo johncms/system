@@ -24,8 +24,9 @@ class DatabaseTestCase extends TestCase
     public static function setUpBeforeClass(): void
     {
         try {
+            $port = getenv('DB_PORT');
             self::$pdo = new PDO(
-                'mysql:host=' . $GLOBALS['DB_HOST'],
+                'mysql:host=' . $GLOBALS['DB_HOST'] . ($port !== false ? ';port=' . $port : ''),
                 $GLOBALS['DB_USER'],
                 $GLOBALS['DB_PASS'],
                 [
