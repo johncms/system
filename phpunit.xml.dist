@@ -3,9 +3,15 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true">
+    <php>
+        <var name="DB_HOST" value="127.0.0.1" />
+        <var name="DB_USER" value="root" />
+        <var name="DB_PASS" value="password" />
+        <var name="DB_NAME" value="johncmstest" />
+    </php>
     <testsuites>
-        <testsuite name="mobicms-render">
-            <directory>./tests</directory>
+        <testsuite name="johncms-system">
+            <directory>./tests/testsuite</directory>
         </testsuite>
     </testsuites>
 
