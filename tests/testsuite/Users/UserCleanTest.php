@@ -17,6 +17,13 @@ use Test\Support\DatabaseTestCase;
 
 class UserCleanTest extends DatabaseTestCase
 {
+    public function setUp(): void
+    {
+        if(null === self::$pdo){
+            $this->markTestSkipped('Need a database for testing');
+        }
+    }
+
     /**
      * Testing the __construct() method
      *

@@ -10,8 +10,8 @@ class CleanupTest extends DatabaseTestCase
 {
     public function setUp(): void
     {
-        if (! self::$pdo instanceof PDO) {
-            $this->markTestSkipped('Need database to test.');
+        if(null === self::$pdo){
+            $this->markTestSkipped('Need a database for testing');
         }
 
         $this->loadSqlDump(SQL_DUMPS . 'sessions.sql');
