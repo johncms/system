@@ -61,11 +61,11 @@ class UserStat
 
         $update = $this->db->prepare(
             'UPDATE `users` SET
-          `lastdate` = ?,
-          `sestime`  = ?,
-          `movings`  = ?,
-          `place` = ?
-          WHERE `id` = ?'
+            `lastdate` = ?,
+            `sestime`  = ?,
+            `movings`  = ?,
+            `place` = ?
+            WHERE `id` = ?'
         );
         $update->execute(
             [
@@ -102,12 +102,12 @@ class UserStat
 
             $update = $this->db->prepare(
                 'UPDATE `cms_sessions` SET
-              `sestime`  = ?,
-              `lastdate` = ?,
-              `place`    = ?,
-              `views`    = ?,
-              `movings`  = ?
-              WHERE `session_id` = ?'
+                `sestime`  = ?,
+                `lastdate` = ?,
+                `place`    = ?,
+                `views`    = ?,
+                `movings`  = ?
+                WHERE `session_id` = ?'
             );
             $update->execute(
                 [
@@ -123,15 +123,15 @@ class UserStat
             // Если еще небыло в базе, то добавляем запись
             $insert = $this->db->prepare(
                 'INSERT INTO `cms_sessions` SET
-              `session_id`   = ?,
-              `ip`           = ?,
-              `ip_via_proxy` = ?,
-              `browser`      = ?,
-              `lastdate`     = ?,
-              `sestime`      = ?,
-              `views`        = 1,
-              `movings`      = 1,
-              `place`        = ?'
+                `session_id`   = ?,
+                `ip`           = ?,
+                `ip_via_proxy` = ?,
+                `browser`      = ?,
+                `lastdate`     = ?,
+                `sestime`      = ?,
+                `views`        = 1,
+                `movings`      = 1,
+                `place`        = ?'
             );
             $insert->execute(
                 [

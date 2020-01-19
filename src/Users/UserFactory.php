@@ -34,26 +34,26 @@ class UserFactory
         $this->db = $container->get(\PDO::class);
         $this->env = $container->get(Environment::class);
         $this->request = $container->get(Request::class);
-        return new User($this->authorize());
+        return new User($this->getUserData());
     }
 
     /**
      * @return array
      */
-    protected function authorize()
+    protected function getUserData()
     {
         /** @psalm-suppress PossiblyNullArgument */
         $userPassword = md5($this->request->getCookie('cups', '', FILTER_SANITIZE_STRING));
         $userId = (int) $this->request->getCookie('cuid', 0, FILTER_SANITIZE_NUMBER_INT);
 
         if ($userId && $userPassword) {
-            return $this->authorization($userId, $userPassword);
+            return $this->authentification($userId, $userPassword);
         }
 
         return [];
     }
 
-    private function authorization(int $userId, string $userPassword): array
+    private function authentification(int $userId, string $userPassword): array
     {
         $req = $this->db->query('SELECT * FROM `users` WHERE `id` = ' . $userId);
 
@@ -93,8 +93,8 @@ class UserFactory
 
         $req = $this->db->query(
             'SELECT * FROM `cms_ban_users`
-            WHERE `user_id` = ' . $userData['id'] . "
-            AND `ban_time` > " . time()
+            WHERE `user_id` = ' . $userData['id'] . '
+            AND `ban_time` > ' . time()
         );
 
         if ($req->rowCount()) {
@@ -117,8 +117,8 @@ class UserFactory
         if ($userData['ip'] != $this->env->getIp() || $userData['ip_via_proxy'] != $this->env->getIpViaProxy()) {
             // Удаляем из истории текущий адрес (если есть)
             $this->db->exec(
-                "DELETE FROM `cms_users_iphistory`
-                WHERE `user_id` = " . $userData['id'] . "
+                'DELETE FROM `cms_users_iphistory`
+                WHERE `user_id` = ' . $userData['id'] . "
                 AND `ip` = '" . $this->env->getIp() . "'
                 AND `ip_via_proxy` = '" . $this->env->getIpViaProxy() . "'
                 LIMIT 1"
@@ -126,8 +126,8 @@ class UserFactory
 
             // Вставляем в историю предыдущий адрес IP
             $this->db->exec(
-                "INSERT INTO `cms_users_iphistory` SET
-                `user_id` = " . $userData['id'] . ",
+                'INSERT INTO `cms_users_iphistory` SET
+                `user_id` = ' . $userData['id'] . ",
                 `ip` = '" . $userData['ip'] . "',
                 `ip_via_proxy` = '" . $userData['ip_via_proxy'] . "',
                 `time` = '" . $userData['lastdate'] . "'"
