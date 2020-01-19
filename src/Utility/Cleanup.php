@@ -16,20 +16,23 @@ use PDO;
 
 class Cleanup
 {
-    /**
-     * @var PDO
-     */
+    /** @var PDO */
     private $pdo;
 
-    public function __construct(PDO $pdo)
+    /** @var string */
+    private $cacheFile = 'system-cleanup.cache';
+
+    public function __construct(PDO $pdo, int $lifeFime = 86400)
     {
         $this->pdo = $pdo;
+        $cache = CACHE_PATH . $this->cacheFile;
 
-        // Очищаем таблицу `cms_sessions`
-        $this->cleanupTable('cms_sessions', 'lastdate', time() - 86400);
+        if (! file_exists($cache) || filemtime($cache) < (time() - $lifeFime)) {
+            $this->cleanupTable('cms_sessions', 'lastdate', time() - 86400);
+            $this->cleanupTable('cms_users_iphistory', 'time', time() - 7776000);
 
-        // Очищаем таблицу `cms_users_iphistory`
-        $this->cleanupTable('cms_users_iphistory', 'time', time() - 7776000);
+            file_put_contents($cache, time());
+        }
     }
 
     private function cleanupTable(string $table, string $timestampField, int $condition): void

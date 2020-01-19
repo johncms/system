@@ -10,12 +10,17 @@ class CleanupTest extends DatabaseTestCase
 {
     public function setUp(): void
     {
-        if(null === self::$pdo){
+        if (null === self::$pdo) {
             $this->markTestSkipped('Need a database for testing');
         }
 
         $this->loadSqlDump(SQL_DUMPS . 'sessions.sql');
         $this->loadSqlDump(SQL_DUMPS . 'cms_users_iphistory.sql');
+        $cache = CACHE_PATH . 'system-cleanup.cache';
+
+        if (is_file($cache)) {
+            unlink($cache);
+        }
     }
 
     public function testCanCreateInstance(): void
