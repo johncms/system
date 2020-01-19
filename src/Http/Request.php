@@ -101,15 +101,15 @@ class Request extends ServerRequest
 
     /**
      * @param string $key
-     * @param mixed $array
+     * @param mixed $var
      * @param int $filter
      * @param mixed $options
      * @return mixed|null
      */
-    private function filterVar(string $key, $array, int $filter, $options)
+    private function filterVar(string $key, $var, int $filter, $options)
     {
-        if (is_array($array) && isset($array[$key])) {
-            $result = filter_var($array[$key], $filter, $options);
+        if (is_array($var) && isset($var[$key])) {
+            $result = filter_var($var[$key], $filter, $options);
 
             if (false !== $result) {
                 return $result;

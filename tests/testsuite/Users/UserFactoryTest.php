@@ -28,6 +28,10 @@ class UserFactoryTest extends DatabaseTestCase
 
     public function setUp(): void
     {
+        if(null === self::$pdo){
+            $this->markTestSkipped('Need a database for testing');
+        }
+
         $this->loadSqlDump(SQL_DUMPS . 'users.sql');
         $this->loadSqlDump(SQL_DUMPS . 'cms_ban_users.sql');
         $this->loadSqlDump(SQL_DUMPS . 'cms_users_iphistory.sql');

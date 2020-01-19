@@ -31,7 +31,6 @@ class TranslatorServiceFactory
         $config = $container->get('config');
 
         $translator = new Translator();
-        $translator->defaultDomain('default');
         $translator->setLocale(
             $this->determineLocale(
                 $userConfig->lng,

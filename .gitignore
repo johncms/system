@@ -1,6 +1,7 @@
 .idea
 composer.lock
 clover.xml
+/phpcs.xml
 /phpunit.xml
 /psalm.xml
 /*.cache

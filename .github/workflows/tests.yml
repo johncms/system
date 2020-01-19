@@ -1,4 +1,4 @@
-name: tests
+name: CI
 on: [push, pull_request]
 
 jobs:
@@ -13,13 +13,14 @@ jobs:
 
     services:
       mysql:
-        image: mariadb:latest
+        image: mariadb:10.4
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: johncmstest
         ports:
           - 3306/tcp
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout
