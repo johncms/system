@@ -122,7 +122,7 @@ class UserStat
         } else {
             // Если еще небыло в базе, то добавляем запись
             $insert = $this->db->prepare(
-                'INSERT INTO `cms_sessions` SET
+                'INSERT IGNORE INTO `cms_sessions` SET
                 `session_id`   = ?,
                 `ip`           = ?,
                 `ip_via_proxy` = ?,
