@@ -21,7 +21,7 @@ class Translator extends Gettext
 
     public function addTranslationDomain(string $domain, string $localesPath): void
     {
-        $file = rtrim($localesPath, '/') . '/' . $this->locale . '.lng';
+        $file = rtrim($localesPath, '/') . '/' . $this->locale . '.lng.php';
 
         if (is_file($file)) {
             $this->defaultDomain($domain);
