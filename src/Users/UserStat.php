@@ -64,7 +64,8 @@ class UserStat
             `lastdate` = ?,
             `sestime`  = ?,
             `movings`  = ?,
-            `place` = ?
+            `place` = ?,
+            `browser` = ?
             WHERE `id` = ?'
         );
         $update->execute(
@@ -73,6 +74,7 @@ class UserStat
                 $sestime,
                 $movings,
                 $place,
+                $this->env->getUserAgent(),
                 $this->user->id,
             ]
         );
