@@ -64,7 +64,8 @@ class UserStat
             `lastdate` = ?,
             `sestime`  = ?,
             `movings`  = ?,
-            `place` = ?
+            `place` = ?,
+            `browser` = ?
             WHERE `id` = ?'
         );
         $update->execute(
@@ -73,6 +74,7 @@ class UserStat
                 $sestime,
                 $movings,
                 $place,
+                $this->env->getUserAgent(),
                 $this->user->id,
             ]
         );
@@ -122,7 +124,7 @@ class UserStat
         } else {
             // Если еще небыло в базе, то добавляем запись
             $insert = $this->db->prepare(
-                'INSERT INTO `cms_sessions` SET
+                'INSERT IGNORE INTO `cms_sessions` SET
                 `session_id`   = ?,
                 `ip`           = ?,
                 `ip_via_proxy` = ?,
