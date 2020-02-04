@@ -25,6 +25,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Nothing
 
 
+## [1.2.0] - 2020-02-04
+
+#### Added
+- A version tag has been added to the avatar links
+
+#### Fixed
+- Temporary fix for guest statistics
+- User Agent has not been updated in user statistics
+
+
 ## [1.1.0] - 2020-01-24
  
 #### Changed
@@ -44,6 +54,7 @@ Initial release
 
 
 [Unreleased]: https://github.com/johncms/system/compare/1.1.0...HEAD
+[1.2.0]: https://github.com/johncms/system/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/johncms/system/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/johncms/system/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/johncms/system/releases/tag/1.0.0
