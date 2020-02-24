@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Johncms\System\Users;
 
+use Johncms\System\Container\Config;
 use Johncms\System\Http\Environment;
 use Psr\Container\ContainerInterface;
 
@@ -32,11 +33,17 @@ class UserStat
      */
     private $user;
 
+    /**
+     * @var Config
+     */
+    private $config;
+
     public function __construct(ContainerInterface $container)
     {
         $this->db = $container->get(\PDO::class);
         $this->env = $container->get(Environment::class);
         $this->user = $container->get(User::class);
+        $this->config = $container->get('config');
 
         if ($this->user->isValid()) {
             $this->processUser();
@@ -59,13 +66,19 @@ class UserStat
                 : $this->user->movings;
         }
 
+        $karma_time = $this->user->karma_time;
+        if (! $this->user->karma_off && $this->config['johncms']['karma']['on'] && $this->user->karma_time <= (time() - 86400)) {
+            $karma_time = time();
+        }
+
         $update = $this->db->prepare(
             'UPDATE `users` SET
             `lastdate` = ?,
             `sestime`  = ?,
             `movings`  = ?,
             `place` = ?,
-            `browser` = ?
+            `browser` = ?,
+            `karma_time` = ?
             WHERE `id` = ?'
         );
         $update->execute(
@@ -75,6 +88,7 @@ class UserStat
                 $movings,
                 $place,
                 $this->env->getUserAgent(),
+                $karma_time,
                 $this->user->id,
             ]
         );
