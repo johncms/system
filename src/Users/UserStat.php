@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Johncms\System\Users;
 
-use Johncms\System\Container\Config;
 use Johncms\System\Http\Environment;
 use Psr\Container\ContainerInterface;
 
@@ -34,7 +33,7 @@ class UserStat
     private $user;
 
     /**
-     * @var Config
+     * @var array
      */
     private $config;
 
@@ -67,7 +66,11 @@ class UserStat
         }
 
         $karma_time = $this->user->karma_time;
-        if (! $this->user->karma_off && $this->config['johncms']['karma']['on'] && $this->user->karma_time <= (time() - 86400)) {
+        if (
+            ! $this->user->karma_off &&
+            $this->config['johncms']['karma']['on'] &&
+            $this->user->karma_time <= (time() - 86400)
+        ) {
             $karma_time = time();
         }
 
