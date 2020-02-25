@@ -28,7 +28,7 @@ class UserStatTest extends DatabaseTestCase
 
     public function setUp(): void
     {
-        if(null === self::$pdo){
+        if (null === self::$pdo) {
             $this->markTestSkipped('Need a database for testing');
         }
 
@@ -39,7 +39,10 @@ class UserStatTest extends DatabaseTestCase
             ->allows()
             ->get(PDO::class)
             ->andReturn(self::$pdo);
-
+        $this->container
+            ->allows()
+            ->get('config')
+            ->andReturn(['johncms' => ['karma' => ['on' => true]]]);
         $environment = Mockery::mock(Environment::class);
         $environment
             ->allows()
