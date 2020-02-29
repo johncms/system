@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Johncms\System\Database;
 
+use Illuminate\Database\Capsule\Manager as Capsule;
 use PDO;
 use Psr\Container\ContainerInterface;
 
@@ -23,32 +24,28 @@ class PdoFactory
             ? (array) $container->get('database')
             : [];
 
-        $pdo = new PDO(
-            $this->prepareDsn($config),
-            $config['db_user'] ?? 'root',
-            $config['db_pass'] ?? '',
+        $capsule = new Capsule();
+        $capsule->addConnection(
             [
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8mb4'",
-                PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,
-                PDO::ATTR_EMULATE_PREPARES   => false,
+                'driver'    => $config['db_driver'] ?? 'mysql',
+                'host'      => $config['db_host'] ?? 'localhost',
+                'port'      => $config['db_port'] ?? '3306',
+                'database'  => $config['db_name'] ?? 'johncms',
+                'username'  => $config['db_user'] ?? 'root',
+                'password'  => $config['db_pass'],
+                'charset'   => 'utf8mb4',
+                'collation' => 'utf8mb4_unicode_ci',
+                'prefix'    => '',
             ]
         );
 
-        return $pdo;
-    }
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
 
-    private function prepareDsn(array $config): string
-    {
-        if (! empty($config['dsn'])) {
-            return $config['dsn'];
+        if (DEBUG) {
+            $capsule->getDatabaseManager()->enableQueryLog();
         }
 
-        $host = $config['db_host'] ?? 'localhost';
-        $port = ! empty($config['port']) ? ';port=' . $config['port'] : '';
-        $dbname = $config['db_name'] ?? 'johncms';
-
-        return 'mysql:host=' . $host . $port . ';dbname=' . $dbname . ';charset=utf8mb4';
+        return $capsule->getDatabaseManager()->getPdo();
     }
 }
