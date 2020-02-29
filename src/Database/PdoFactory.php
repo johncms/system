@@ -32,7 +32,7 @@ class PdoFactory
                 'port'      => $config['db_port'] ?? '3306',
                 'database'  => $config['db_name'] ?? 'johncms',
                 'username'  => $config['db_user'] ?? 'root',
-                'password'  => $config['db_pass'],
+                'password'  => $config['db_pass'] ?? '',
                 'charset'   => 'utf8mb4',
                 'collation' => 'utf8mb4_unicode_ci',
                 'prefix'    => '',
