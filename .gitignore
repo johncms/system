@@ -1,8 +1,5 @@
 .idea
-composer.lock
-clover.xml
-/phpcs.xml
-/phpunit.xml
-/psalm.xml
 /*.cache
-vendor/
+/clover.xml
+/phpunit.xml
+/vendor
