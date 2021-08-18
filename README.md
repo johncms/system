@@ -6,6 +6,7 @@ This package is not an independent component and is used exclusively as core fra
 [![Packagist](https://img.shields.io/packagist/dt/johncms/system)](https://packagist.org/packages/johncms/system)
 
 [![CI-Analysis](https://github.com/johncms/system/workflows/Analysis/badge.svg)](https://github.com/johncms/system/actions/workflows/analysis.yml)
+[![CI-Security](https://github.com/johncms/system/workflows/Security/badge.svg)](https://github.com/johncms/system/actions/workflows/security.yml)
 
 ## Contributing
 Contributions are welcome! Please read [CONTRIBUTING](https://github.com/johncms/system/blob/develop/.github/CONTRIBUTING.md) for details.
