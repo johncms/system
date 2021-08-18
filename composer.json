@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Johncms\\System\\": "src/"
+            "Johncms\\": "src/"
         }
     },
     "autoload-dev": {
