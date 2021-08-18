@@ -47,10 +47,12 @@
     "scripts": {
         "check": [
             "@cs-check",
-            "@static-analysis"
+            "@static-analysis",
+            "@security-analysis"
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "static-analysis": "psalm --show-info=true"
+        "static-analysis": "psalm --show-info=true",
+        "security-analysis": "psalm --taint-analysis --show-info=true --report=results.sarif"
     }
 }

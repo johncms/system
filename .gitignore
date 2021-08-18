@@ -2,4 +2,5 @@
 /*.cache
 /clover.xml
 /phpunit.xml
+/results.sarif
 /vendor
