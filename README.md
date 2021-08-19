@@ -7,6 +7,7 @@ This package is not an independent component and is used exclusively as core fra
 
 [![CI-Analysis](https://github.com/johncms/system/workflows/Analysis/badge.svg)](https://github.com/johncms/system/actions/workflows/analysis.yml)
 [![CI-Security](https://github.com/johncms/system/workflows/Security/badge.svg)](https://github.com/johncms/system/actions/workflows/security.yml)
+[![CI-Tests](https://github.com/johncms/system/workflows/Tests/badge.svg)](https://github.com/johncms/system/actions/workflows/tests.yml)
 [![Code Coverage](https://scrutinizer-ci.com/g/johncms/system/badges/coverage.png)](https://scrutinizer-ci.com/g/johncms/system/code-structure/develop/code-coverage)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johncms/system/badges/quality-score.png)](https://scrutinizer-ci.com/g/johncms/system)
 
