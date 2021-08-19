@@ -27,6 +27,8 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
+        "mockery/mockery": "^1.4",
+        "phpunit/phpunit": "^9.5",
         "psalm/plugin-mockery": "^0.9.0",
         "psalm/plugin-phpunit": "^0.16.1",
         "roave/security-advisories": "dev-master",
@@ -36,7 +38,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Johncms\\": "src/"
+            "Johncms\\System\\": "src/"
         }
     },
     "autoload-dev": {
@@ -48,11 +50,17 @@
         "check": [
             "@cs-check",
             "@static-analysis",
-            "@security-analysis"
+            "@security-analysis",
+            "@test"
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "static-analysis": "psalm --show-info=true",
-        "security-analysis": "psalm --taint-analysis --show-info=true --report=results.sarif"
+        "security-analysis": "psalm --taint-analysis --show-info=true --report=results.sarif",
+        "test": "phpunit --colors=always",
+        "test-coverage": [
+            "@putenv XDEBUG_MODE=coverage",
+            "phpunit --colors=always --coverage-clover clover.xml"
+        ]
     }
 }
